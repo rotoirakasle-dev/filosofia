@@ -1,0 +1,3181 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="charter">
+  <title>Jakintzaren Odisea — Egiaren Teoriak eta Zientziaren Filosofia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Charter + Requested Classical Parchment, Deep Navy & Ochre Gold Palette */
+      --background: #FAF6EE;
+      --surface-container-low: #FFFDF8;
+      --surface-container: #F2EAD8;
+      --surface-container-high: #E7DCC4;
+
+      --on-surface: #1B2A4A;
+      --on-surface-variant: #44516E;
+
+      --outline: #C59B27;
+      --outline-variant: #DDD2B8;
+
+      --primary: #1B2A4A;
+      --on-primary: #FAF6EE;
+      --primary-container: #E6EAF2;
+      --on-primary-container: #1B2A4A;
+      --secondary: #2D5A4A;
+      --tertiary: #876613;
+      --error: #9B2C2C;
+      --on-error: #FAF6EE;
+
+      --data-1: #1B2A4A;
+      --data-2: #876613;
+      --data-3: #2D5A4A;
+      --data-4: #4A668C;
+      --data-context: #C5BBA4;
+
+      /* Fonts */
+      --font-headline: 'Libre Caslon Text', Georgia, 'Times New Roman', serif;
+      --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-label: 'Inter', system-ui, -apple-system, sans-serif;
+
+      /* Shape */
+      --rounded: 0.125rem;
+      --rounded-lg: 0.25rem;
+      --rounded-full: 0.125rem;
+
+      /* Style effects */
+      --brass-rule: 2px solid var(--outline);
+      --brass-rule-thick: 3px solid var(--outline);
+      --hairline: 1px solid var(--outline-variant);
+      --leaf-underline: 0 1px 0 var(--outline-variant);
+
+      /* 3. Shared Semantic, Focus, Scale, Spacing & Motion Tokens */
+      --positive: #256046;
+      --positive-bg: #EBF5F0;
+      --warning: #8A520F;
+      --warning-bg: #FDF4E3;
+      --error-bg: #FCEEEE;
+      --focus: #1B2A4A;
+
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.95rem, 0.92rem + 0.18vw, 1.03125rem);
+      --label-size: 0.75rem;
+
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Page container */
+    .page-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1160px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Classical Academy Masthead (Light parchment + gold rules, no dark backgrounds) */
+    .academy-header {
+      background: var(--surface-container-low);
+      border-top: var(--brass-rule-thick);
+      border-bottom: var(--brass-rule);
+      padding: var(--space-lg) var(--space-lg) var(--space-md);
+    }
+
+    .header-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+
+    .brand-block {
+      flex: 1 1 320px;
+    }
+
+    .kicker-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tertiary);
+      margin: 0 0 var(--space-xs) 0;
+    }
+
+    .site-title {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: -0.01em;
+      color: var(--primary);
+      margin: 0 0 var(--space-xs) 0;
+    }
+
+    .site-subtitle {
+      font-size: var(--body-size);
+      color: var(--on-surface-variant);
+      margin: 0;
+      max-width: 65ch;
+    }
+
+    .header-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .lang-toggle-group {
+      display: inline-flex;
+      border: 1px solid var(--outline);
+      background: var(--background);
+      border-radius: var(--rounded);
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      min-height: 2.75rem;
+      padding: var(--space-xs) var(--space-md);
+      border: none;
+      background: transparent;
+      color: var(--on-surface);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+
+    .lang-btn:hover {
+      background: var(--surface-container);
+    }
+
+    .lang-btn.active {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    /* HUD Strip: Progress & Wisdom Points */
+    .hud-strip {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) auto;
+      gap: var(--space-md);
+      align-items: center;
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: var(--hairline);
+    }
+
+    .progress-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+
+    .progress-track {
+      height: 0.625rem;
+      background: var(--surface-container);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--outline);
+      transition: width var(--dur-long) var(--ease-out);
+    }
+
+    .wisdom-counter {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container);
+      border-left: var(--brass-rule);
+      border-radius: var(--rounded);
+    }
+
+    .wisdom-number {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 400;
+      font-variant-numeric: tabular-nums lining-nums;
+      color: var(--primary);
+      line-height: 1.1;
+    }
+
+    .wisdom-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--tertiary);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      min-height: 2.75rem;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--on-surface-variant);
+      border-color: var(--on-surface-variant);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--primary-container);
+    }
+
+    .btn-subtle {
+      background: var(--surface-container);
+      color: var(--on-surface);
+      border-color: var(--outline-variant);
+    }
+
+    .btn-subtle:hover:not(:disabled) {
+      background: var(--surface-container-high);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Route Navigation Tabs */
+    .route-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      border-bottom: var(--hairline);
+      padding-bottom: var(--space-sm);
+    }
+
+    .route-tab {
+      min-height: 2.75rem;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-bottom: 3px solid transparent;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      flex: 1 1 220px;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .route-tab:hover {
+      background: var(--surface-container);
+    }
+
+    .route-tab.active {
+      background: var(--surface-container);
+      border-color: var(--outline);
+      border-bottom: 3px solid var(--primary);
+    }
+
+    .tab-kicker {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--tertiary);
+    }
+
+    .tab-title {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 400;
+      color: var(--primary);
+    }
+
+    .tab-status {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      margin-top: var(--space-xs);
+    }
+
+    /* Welcome / Bilingual Intro Panel */
+    .welcome-panel {
+      background: var(--surface-container-low);
+      border-top: var(--brass-rule-thick);
+      border-bottom: var(--brass-rule);
+      padding: var(--space-lg);
+      box-shadow: var(--leaf-underline);
+    }
+
+    .welcome-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: center;
+    }
+
+    .welcome-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+
+    .rules-list {
+      margin: var(--space-sm) 0 0 0;
+      padding-left: var(--space-lg);
+      color: var(--on-surface-variant);
+    }
+    .rules-list li + li {
+      margin-top: var(--space-xs);
+    }
+
+    /* Archon Mentor Stage */
+    .archon-stage {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: center;
+      background: var(--surface-container);
+      border-left: var(--brass-rule-thick);
+      border-top: var(--hairline);
+      border-right: var(--hairline);
+      border-bottom: var(--hairline);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: var(--rounded);
+    }
+
+    .archon-avatar-frame {
+      width: 6.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    .archon-name {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--tertiary);
+      text-align: center;
+    }
+
+    .speech-bubble {
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      position: relative;
+      box-shadow: var(--leaf-underline);
+    }
+
+    .speech-bubble-kicker {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--tertiary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .speech-bubble p {
+      margin: 0;
+      max-width: 65ch;
+      color: var(--on-surface);
+    }
+
+    /* Phase Stepper inside each Route */
+    .phase-stepper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+
+    .phase-pill {
+      min-height: 2.75rem;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .phase-pill:hover:not(:disabled) {
+      background: var(--surface-container);
+    }
+
+    .phase-pill.active {
+      background: var(--primary-container);
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+
+    .phase-pill.completed {
+      border-left: 4px solid var(--secondary);
+    }
+
+    .phase-pill:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      background: var(--background);
+    }
+
+    /* Section Headings & Cards */
+    .section-head {
+      border-top: var(--brass-rule);
+      padding-top: var(--space-md);
+      border-bottom: var(--hairline);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-sm);
+    }
+
+    .section-head h2 {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 400;
+      margin: 0;
+      color: var(--primary);
+    }
+
+    .stamp-tag {
+      display: inline-block;
+      padding: var(--space-xs) var(--space-sm);
+      border: 1px solid var(--outline);
+      color: var(--tertiary);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+    }
+
+    .stamp-tag.done {
+      border-color: var(--positive);
+      color: var(--positive);
+      background: var(--positive-bg);
+    }
+
+    /* Claves del Sabio / Jakintsuaren Gakoak */
+    .claves-card {
+      background: var(--surface-container-low);
+      border-top: var(--brass-rule);
+      border-right: var(--hairline);
+      border-bottom: var(--hairline);
+      border-left: var(--hairline);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+      box-shadow: var(--leaf-underline);
+    }
+
+    .claves-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: var(--space-lg);
+      margin-top: var(--space-md);
+    }
+
+    .concept-leaf {
+      background: var(--background);
+      border-top: 2px solid var(--primary);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+    }
+
+    .concept-leaf h3 {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 700;
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--primary);
+    }
+
+    .concept-leaf p {
+      margin: 0 0 var(--space-sm) 0;
+      font-size: 0.9375rem;
+    }
+
+    .primary-quote {
+      margin: var(--space-sm) 0 0 0;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container);
+      border-left: 3px solid var(--outline);
+      font-family: var(--font-headline);
+      font-style: italic;
+      font-size: 0.9375rem;
+      color: var(--on-surface);
+    }
+
+    .quote-author {
+      display: block;
+      margin-top: var(--space-xs);
+      font-family: var(--font-label);
+      font-style: normal;
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--tertiary);
+    }
+
+    /* Interactive Challenges */
+    .challenge-box {
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-top: var(--brass-rule);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-lg);
+    }
+
+    .case-row {
+      padding: var(--space-md);
+      border: var(--hairline);
+      background: var(--background);
+      margin-bottom: var(--space-md);
+      border-radius: var(--rounded);
+    }
+
+    .case-statement {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      color: var(--primary);
+      margin: 0 0 var(--space-md) 0;
+    }
+
+    .form-pair {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) auto;
+      gap: var(--space-md);
+      align-items: end;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+
+    .field-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--on-surface-variant);
+    }
+
+    .styled-select {
+      min-height: 2.75rem;
+      padding: var(--space-sm) var(--space-lg) var(--space-sm) var(--space-sm);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      font-size: 0.9375rem;
+    }
+
+    .styled-select:focus {
+      border-color: var(--primary);
+    }
+
+    /* Quiz Question Cards */
+    .question-card {
+      padding: var(--space-md);
+      border: var(--hairline);
+      background: var(--background);
+      margin-bottom: var(--space-md);
+      border-radius: var(--rounded);
+    }
+
+    .question-prompt {
+      font-weight: 600;
+      color: var(--primary);
+      margin: 0 0 var(--space-md) 0;
+      max-width: 65ch;
+    }
+
+    .options-list {
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .option-btn {
+      min-height: 2.75rem;
+      padding: var(--space-sm) var(--space-md);
+      text-align: left;
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: var(--surface-container);
+      border-color: var(--outline);
+    }
+
+    .option-btn.selected-correct {
+      background: var(--positive-bg);
+      border-color: var(--positive);
+      color: var(--on-surface);
+    }
+
+    .option-btn.selected-wrong {
+      background: var(--error-bg);
+      border-color: var(--error);
+      color: var(--on-surface);
+    }
+
+    .option-letter {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--surface-container);
+      color: var(--primary);
+      border-radius: var(--rounded);
+      flex-shrink: 0;
+    }
+
+    /* Feedback Banner */
+    .feedback-banner {
+      margin-top: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border-left: 4px solid var(--outline);
+      background: var(--surface-container);
+      font-size: 0.9375rem;
+      border-radius: var(--rounded);
+    }
+
+    .feedback-banner.success {
+      border-left-color: var(--positive);
+      background: var(--positive-bg);
+    }
+
+    .feedback-banner.error {
+      border-left-color: var(--error);
+      background: var(--error-bg);
+    }
+
+    /* DUA 4-Quadrant Matrix */
+    .dua-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+      gap: var(--space-lg);
+    }
+
+    .dua-quadrant {
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-top: var(--brass-rule-thick);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      border-radius: var(--rounded);
+    }
+
+    .dua-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-sm);
+      border-bottom: var(--hairline);
+      padding-bottom: var(--space-xs);
+    }
+
+    .dua-header h3 {
+      font-family: var(--font-headline);
+      font-size: var(--subhead-size);
+      font-weight: 700;
+      margin: 0;
+      color: var(--primary);
+    }
+
+    .dua-authors {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--tertiary);
+    }
+
+    /* Popper Swan Interactive Mini-Lab */
+    .swan-lab {
+      background: var(--surface-container);
+      border: 1px solid var(--outline);
+      padding: var(--space-md);
+      margin-top: var(--space-md);
+      border-radius: var(--rounded);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .swan-visual {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      align-items: center;
+    }
+
+    .swan-status-pill {
+      padding: var(--space-xs) var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+    }
+
+    /* Kuhn Circular Cycle Layout */
+    .kuhn-dossier-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+
+    .kuhn-svg-panel {
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-top: var(--brass-rule);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-md);
+    }
+
+    .kuhn-node-group {
+      cursor: pointer;
+    }
+
+    .kuhn-node-group:focus-visible circle {
+      stroke: var(--primary);
+      stroke-width: 4;
+    }
+
+    .kuhn-inspector {
+      width: 100%;
+      background: var(--background);
+      border-left: 3px solid var(--outline);
+      padding: var(--space-md);
+      font-size: 0.9375rem;
+    }
+
+    /* Diagnostic Report */
+    .report-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .figure-card {
+      background: var(--surface-container-low);
+      border-top: var(--brass-rule);
+      box-shadow: var(--leaf-underline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+
+    .figure-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+
+    .figure-value {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 400;
+      font-variant-numeric: tabular-nums lining-nums;
+      color: var(--primary);
+      margin-top: var(--space-xs);
+    }
+
+    .figure-delta {
+      font-size: 0.875rem;
+      color: var(--tertiary);
+      font-weight: 600;
+      margin-top: var(--space-xs);
+    }
+
+    .pillar-bar-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr) auto;
+      gap: var(--space-md);
+      align-items: center;
+      padding: var(--space-sm) 0;
+      border-bottom: var(--hairline);
+    }
+
+    .pillar-track {
+      height: 0.625rem;
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      overflow: hidden;
+    }
+
+    .pillar-fill {
+      height: 100%;
+      background: var(--primary);
+      transition: width var(--dur-long) var(--ease-out);
+    }
+
+    .pillar-fill.mastered {
+      background: var(--secondary);
+    }
+
+    .diag-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .diag-item {
+      padding: var(--space-md);
+      background: var(--surface-container-low);
+      border-left: 4px solid var(--warning);
+      border-top: var(--hairline);
+      border-right: var(--hairline);
+      border-bottom: var(--hairline);
+    }
+
+    .diag-item.clean {
+      border-left-color: var(--positive);
+      background: var(--positive-bg);
+    }
+
+    .phase-footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+      padding-top: var(--space-md);
+      border-top: var(--hairline);
+    }
+
+    .hidden { display: none !important; }
+
+    /* Container & Media Responsive Rules */
+    .card-wrapper { container-type: inline-size; }
+    @container (max-width: 520px) {
+      .form-pair {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-grid {
+        padding: var(--space-sm);
+        gap: var(--space-md);
+      }
+      .academy-header {
+        padding: var(--space-md);
+      }
+      .hud-strip {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .welcome-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .archon-stage {
+        grid-template-columns: minmax(0, 1fr);
+        text-align: left;
+      }
+      .kuhn-dossier-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .form-pair {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .pillar-bar-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-xs);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-grid">
+    <!-- Classical Academy Header -->
+    <header class="academy-header">
+      <div class="header-top-row">
+        <div class="brand-block">
+          <p class="kicker-label" id="hdr-kicker">1. Batxilergoa · C Blokea · Akademia eta Lizeoa</p>
+          <h1 class="site-title" id="hdr-title">Jakintzaren Odisea: Egia eta Zientzia</h1>
+          <p class="site-subtitle" id="hdr-subtitle">Egiaren teoriak (Korrespondentzia, Koherentzia, Pragmatismoa, Adostasuna) eta zientziaren filosofia (Popper eta Kuhn) aztertzeko ibilbide interaktiboa.</p>
+        </div>
+        <div class="header-controls">
+          <div class="lang-toggle-group" role="group" aria-label="Hizkuntza / Idioma">
+            <button type="button" class="lang-btn active" id="btn-lang-eu" onclick="setLanguage('eu')">Euskara</button>
+            <button type="button" class="lang-btn" id="btn-lang-es" onclick="setLanguage('es')">Castellano</button>
+          </div>
+          <button type="button" class="btn btn-subtle" id="btn-reset" onclick="handleReset(this)">Berrezarri</button>
+        </div>
+      </div>
+
+      <div class="hud-strip">
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span id="hud-progress-label">Ibilbidearen Aurrerapena</span>
+            <span id="hud-progress-value">0 / 6 fase (0%)</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="hud-progress-bar">
+            <div class="progress-fill" id="hud-progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="wisdom-counter">
+          <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="2"></circle>
+            <path d="M16 7 L18.5 12.5 L24.5 13.2 L20 17.3 L21.2 23.2 L16 20.2 L10.8 23.2 L12 17.3 L7.5 13.2 L13.5 12.5 Z" fill="var(--outline)"></path>
+          </svg>
+          <div>
+            <div class="wisdom-number" id="hud-points">0</div>
+            <div class="wisdom-label" id="hud-points-label">Jakintza-puntuak</div>
+          </div>
+        </div>
+
+        <div>
+          <span class="stamp-tag" id="hud-rank">Ikaslea</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Welcome Banner with Bilingual Selector & Rules -->
+    <section class="welcome-panel" id="welcome-panel" aria-labelledby="welcome-heading">
+      <div class="welcome-grid">
+        <div>
+          <p class="kicker-label" id="welcome-kicker">Akademiako Harrera</p>
+          <h2 id="welcome-heading" style="font-family: var(--font-headline); font-weight: 400; margin: 0 0 var(--space-sm) 0; color: var(--primary);">Ongi etorri Jakintzaren Akademiara</h2>
+          <p id="welcome-desc" style="margin: 0; max-width: 65ch;">Bi ibilbide filosofiko osatu beharko dituzu Jakintzaren Arkontearen gidaritzapean: lehenengoan, egia zer den argituko duzu; bigarrenean, zientzia eta sasi-zientzia bereizi eta iraultza zientifikoak ulertuko dituzu.</p>
+          <ul class="rules-list" id="welcome-rules">
+            <li>Irakurri fase bakoitzeko <strong>Jakintsuaren Gakoak</strong> eta testu filosofikoak ebatzi aurretik.</li>
+            <li>Erantzun zuzenek <strong>Jakintza-puntuak</strong> ematen dituzte eta hurrengo fasea desblokeatzen dute.</li>
+            <li>Akats bakoitzak berehalako azalpena dakar, eta amaierako txostenean zer berrikusi adieraziko dizu.</li>
+          </ul>
+          <div class="welcome-actions">
+            <button type="button" class="btn btn-primary" id="btn-start-eu" onclick="startOdyssey('eu')">Hasi Euskaraz</button>
+            <button type="button" class="btn btn-secondary" id="btn-start-es" onclick="startOdyssey('es')">Comenzar en Castellano</button>
+          </div>
+        </div>
+
+        <div style="background: var(--surface-container); padding: var(--space-md); border-left: var(--brass-rule-thick); border-radius: var(--rounded);">
+          <p class="kicker-label" id="welcome-preview-kicker">Azken Produktuak</p>
+          <p id="welcome-preview-1" style="margin: 0 0 var(--space-sm) 0; font-size: 0.9375rem;"><strong>1. Ibilbidea:</strong> Lau Egia-Teorien DUA Matrize Sintetiko interaktiboa (41-42. saioak).</p>
+          <p id="welcome-preview-2" style="margin: 0 0 var(--space-sm) 0; font-size: 0.9375rem;"><strong>2. Ibilbidea:</strong> Epistemologia Ikuskaritzako Dossierra: Falsazionismo-testa eta Kuhnen ziklo zirkularra (43-44. saioak).</p>
+          <p id="welcome-preview-3" style="margin: 0; font-size: 0.9375rem;"><strong>Diagnostikoa:</strong> Zure akatsetan oinarritutako berrikuspen-txosten pertsonalizatua.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top Route Navigation Tabs -->
+    <nav class="route-tabs" aria-label="Ibilbideak / Rutas">
+      <button type="button" class="route-tab active" id="tab-route-1" onclick="switchRoute('route1')">
+        <span class="tab-kicker" id="tab1-kicker">1. Ibilbidea · 41-42. Saioak</span>
+        <span class="tab-title" id="tab1-title">Egiaren Izaera</span>
+        <span class="tab-status" id="tab1-status">0 / 3 fase osatuta</span>
+      </button>
+      <button type="button" class="route-tab" id="tab-route-2" onclick="switchRoute('route2')">
+        <span class="tab-kicker" id="tab2-kicker">2. Ibilbidea · 43-44. Saioak</span>
+        <span class="tab-title" id="tab2-title">Demarkazioa eta Aldaketa Zientzian</span>
+        <span class="tab-status" id="tab2-status">0 / 3 fase osatuta</span>
+      </button>
+      <button type="button" class="route-tab" id="tab-report" onclick="switchRoute('report')">
+        <span class="tab-kicker" id="tab3-kicker">Sintesia eta Ebaluazioa</span>
+        <span class="tab-title" id="tab3-title">Diagnostiko Epistemologikoa</span>
+        <span class="tab-status" id="tab3-status">Laburpen pertsonalizatua</span>
+      </button>
+    </nav>
+
+    <!-- Classical Mentor Stage ("Jakintzaren Arkontea" / "Arconte del Saber") -->
+    <aside class="archon-stage" aria-live="polite">
+      <div class="archon-avatar-frame">
+        <svg width="88" height="88" viewBox="0 0 100 100" aria-hidden="true">
+          <!-- Classical Temple Pediment & Medallion -->
+          <circle cx="50" cy="50" r="46" fill="var(--surface-container-low)" stroke="var(--outline)" stroke-width="3"></circle>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="var(--outline-variant)" stroke-width="1"></circle>
+          <!-- Columns hint -->
+          <line x1="20" y1="26" x2="20" y2="74" stroke="var(--outline-variant)" stroke-width="2"></line>
+          <line x1="80" y1="26" x2="80" y2="74" stroke="var(--outline-variant)" stroke-width="2"></line>
+          <!-- Chiton / Shoulders -->
+          <path d="M24 85 C26 67, 36 62, 50 62 C64 62, 74 67, 76 85 Z" fill="var(--primary)"></path>
+          <path d="M38 63 L50 76 L62 63" fill="none" stroke="var(--outline)" stroke-width="2"></path>
+          <!-- Neck & Head -->
+          <rect x="44" y="53" width="12" height="11" rx="2" fill="var(--surface-container)"></rect>
+          <ellipse cx="50" cy="40" rx="14" ry="17" fill="var(--surface-container)"></ellipse>
+          <!-- Classical Beard & Hair -->
+          <path d="M36 42 C36 55, 42 61, 50 61 C58 61, 64 55, 64 42 C62 46, 57 48, 50 48 C43 48, 38 46, 36 42 Z" fill="var(--primary)"></path>
+          <path d="M35 37 C35 24, 42 20, 50 20 C58 20, 65 24, 65 37 C61 30, 56 28, 50 28 C44 28, 39 30, 35 37 Z" fill="var(--primary)"></path>
+          <!-- Laurel Wreath in Gold -->
+          <path d="M34 32 Q38 22 49 21" fill="none" stroke="var(--outline)" stroke-width="2.5" stroke-linecap="round"></path>
+          <path d="M66 32 Q62 22 51 21" fill="none" stroke="var(--outline)" stroke-width="2.5" stroke-linecap="round"></path>
+          <!-- Eyes & Nose -->
+          <circle cx="44" cy="39" r="1.5" fill="var(--primary)"></circle>
+          <circle cx="56" cy="39" r="1.5" fill="var(--primary)"></circle>
+          <line x1="50" y1="38" x2="50" y2="44" stroke="var(--tertiary)" stroke-width="1.5" stroke-linecap="round"></line>
+          <path d="M46 47 Q50 49 54 47" fill="none" stroke="var(--surface-container-low)" stroke-width="1.5" stroke-linecap="round"></path>
+        </svg>
+        <span class="archon-name" id="archon-name">Jakintzaren Arkontea</span>
+      </div>
+      <div class="speech-bubble">
+        <div class="speech-bubble-kicker" id="archon-context-kicker">Arkontea · Gida</div>
+        <p id="archon-dialogue"></p>
+      </div>
+    </aside>
+
+    <!-- Main Content Container -->
+    <main id="main-workspace">
+      <!-- ROUTE 1 -->
+      <section id="view-route1">
+        <div class="phase-stepper" id="stepper-route1">
+          <button type="button" class="phase-pill active" id="pill-r1-1" onclick="selectPhase('route1', 1)">
+            <span id="pill-r1-1-text">1.1 Korrespondentzia eta Koherentzia</span>
+          </button>
+          <button type="button" class="phase-pill" id="pill-r1-2" onclick="selectPhase('route1', 2)">
+            <span id="pill-r1-2-text">1.2 Pragmatismoa eta Adostasuna</span>
+          </button>
+          <button type="button" class="phase-pill" id="pill-r1-3" onclick="selectPhase('route1', 3)">
+            <span id="pill-r1-3-text">1.3 DUA Matrize Sintetikoa</span>
+          </button>
+        </div>
+        <div id="route1-content"></div>
+      </section>
+
+      <!-- ROUTE 2 -->
+      <section id="view-route2" class="hidden">
+        <div class="phase-stepper" id="stepper-route2">
+          <button type="button" class="phase-pill active" id="pill-r2-1" onclick="selectPhase('route2', 1)">
+            <span id="pill-r2-1-text">2.1 Popper eta Falsazionismoa</span>
+          </button>
+          <button type="button" class="phase-pill" id="pill-r2-2" onclick="selectPhase('route2', 2)">
+            <span id="pill-r2-2-text">2.2 Kuhn eta Iraultza Zientifikoak</span>
+          </button>
+          <button type="button" class="phase-pill" id="pill-r2-3" onclick="selectPhase('route2', 3)">
+            <span id="pill-r2-3-text">2.3 Epistemologia Dossierra</span>
+          </button>
+        </div>
+        <div id="route2-content"></div>
+      </section>
+
+      <!-- FINAL REPORT -->
+      <section id="view-report" class="hidden">
+        <div id="report-content"></div>
+      </section>
+    </main>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    /* =========================================================================
+       DATA STORE (BILINGUAL: EUSKARA & CASTELLANO — STRICTLY FROM SOURCE NOTES)
+       ========================================================================= */
+    const I18N = {
+      eu: {
+        hdrKicker: `1. Batxilergoa · C Blokea · Akademia eta Lizeoa`,
+        hdrTitle: `Jakintzaren Odisea: Egia eta Zientzia`,
+        hdrSubtitle: `Egiaren teoriak (Korrespondentzia, Koherentzia, Pragmatismoa, Adostasuna) eta zientziaren filosofia (Popper eta Kuhn) aztertzeko ibilbide interaktiboa.`,
+        resetBtn: `Berrezarri`,
+        resetConfirmBtn: `Egin klik berriro berrezartzeko`,
+        progressLabel: `Ibilbidearen Aurrerapena`,
+        pointsLabel: `Jakintza-puntuak`,
+        archonName: `Jakintzaren Arkontea`,
+        archonKicker: `Arkontea · Gida Filosofikoa`,
+        welcomeKicker: `Akademiako Harrera`,
+        welcomeHeading: `Ongi etorri Jakintzaren Akademiara`,
+        welcomeDesc: `Bi ibilbide filosofiko osatu beharko dituzu Jakintzaren Arkontearen gidaritzapean: lehenengoan, egia zer den argituko duzu; bigarrenean, zientzia eta sasi-zientzia bereizi eta iraultza zientifikoak ulertuko dituzu.`,
+        welcomeRules: [
+          `Irakurri fase bakoitzeko <strong>Jakintsuaren Gakoak</strong> eta jatorrizko testu filosofikoak erronkak ebatzi aurretik.`,
+          `Erantzun zuzenek <strong>Jakintza-puntuak</strong> ematen dituzte eta hurrengo fasea desblokeatzen dute.`,
+          `Akats bakoitzak berehalako azalpena dakar apunteetan oinarrituta, eta amaierako txostenean zer berrikusi adieraziko dizu.`
+        ],
+        welcomePreviewKicker: `Produktu Artikulatzailak`,
+        welcomePreview1: `<strong>1. Ibilbidea:</strong> Lau Egia-Teorien DUA Matrize Sintetiko interaktiboa (41-42. saioak).`,
+        welcomePreview2: `<strong>2. Ibilbidea:</strong> Epistemologia Ikuskaritzako Dossierra: Falsazionismo-testa eta Kuhnen ziklo zirkularra (43-44. saioak).`,
+        welcomePreview3: `<strong>Diagnostikoa:</strong> Zure akatsetan oinarritutako berrikuspen-txosten pertsonalizatua.`,
+        tab1Kicker: `1. Ibilbidea · 41-42. Saioak`,
+        tab1Title: `Egiaren Izaera`,
+        tab2Kicker: `2. Ibilbidea · 43-44. Saioak`,
+        tab2Title: `Demarkazioa eta Aldaketa Zientzian`,
+        tab3Kicker: `Sintesia eta Ebaluazioa`,
+        tab3Title: `Diagnostiko Epistemologikoa`,
+        tab3Status: `Laburpen pertsonalizatua`,
+        phasesCompleted: `fase osatuta`,
+        pillR1_1: `1.1 Korrespondentzia eta Koherentzia`,
+        pillR1_2: `1.2 Pragmatismoa eta Adostasuna`,
+        pillR1_3: `1.3 DUA Matrize Sintetikoa`,
+        pillR2_1: `2.1 Popper eta Falsazionismoa`,
+        pillR2_2: `2.2 Kuhn eta Iraultza Zientifikoak`,
+        pillR2_3: `2.3 Epistemologia Dossierra`,
+        lockedLabel: `Blokeatuta`,
+        completedLabel: `Osatuta`,
+        unlockedLabel: `Erabilgarri`,
+        ranks: [
+          { min: 0, label: `Ikaslea` },
+          { min: 75, label: `Ikertzailea` },
+          { min: 160, label: `Dialektikoa` },
+          { min: 250, label: `Jakintzaren Maisua` }
+        ],
+        archonMessages: {
+          route1_1: `Lehen geltokian gaude, ikasle: "Koaderno hau zuria da" eta "Triangelu baten angeluen batura 180 gradu da" esaldiak ez dira berdin egiaztatzen. Aztertu zentzumenen korrespondentzia eta arrazoiaren koherentzia!`,
+          route1_2: `Egiaren beste bi aurpegiak datoz orain: William Jamesen pragmatismoak funtzionatzen duenari begiratzen dio; Habermasen adostasunak, berriz, hertsadurarik gabeko elkarrizketa idealari. Kontuz manipulazioarekin!`,
+          route1_3: `Orain teoria guztiak lotzeko garaia da. Osatu Lau Egia-Teorien DUA Matrize Sintetikoa definizio, adibide eta arrisku nagusiekin. Koadernoan bezala, ikuspegi zabala behar duzu!`,
+          route2_1: `Zientziaren mugak marraztuko ditugu Karl Popperrekin. Gogoratu zisne beltza: milaka baieztapenek ez dute lege unibertsal bat frogatzen, baina kontrako behaketa bakar batek gezurtatu dezake!`,
+          route2_2: `Popperren logikatik Thomas Kuhnen historiara goaz: zientzia ez da soilik pilaketa lineala. Anomaliak pilatzen direnean, krisia sortzen da eta paradigma osoa aldatzen da, eredu geozentrikotik heliozentrikora bezala.`,
+          route2_3: `Azken proba praktikoa duzu Epistemologia Dossierrean! Ikuskatu lau baieztapen Popperren falsazionismo-testarekin, eta berreraiki Kuhnen ziklo zirkularra eredu astronomikoen adibidean.`,
+          report: `Hona hemen zure Odisearen Diagnostiko Epistemologikoa. Begiratu zure Jakintza-puntuak, menperatutako blokeak eta berrikusi beharreko kontzeptu zehatzak.`
+        },
+        clavesTitle: `Jakintsuaren Gakoak`,
+        nextPhaseBtn: `Hurrengo fasera joan`,
+        prevPhaseBtn: `Aurreko fasera itzuli`,
+        goReportBtn: `Ikusi Diagnostiko Txostena`,
+        goRoute2Btn: `2. Ibilbidera joan`,
+        checkBtn: `Egiaztatu`,
+        selectPrompt: `-- Aukeratu --`,
+        phaseCompleteBanner: `Fasea osatuta! Hurrengo urratsa desblokeatu duzu.`,
+        lockedHint: `Aurreko fasea osatu behar duzu hau desblokeatzeko.`
+      },
+      es: {
+        hdrKicker: `1.º de Bachillerato · Bloque C · Academia y Liceo`,
+        hdrTitle: `Odisea Filosófica: La Verdad y la Ciencia`,
+        hdrSubtitle: `Recorrido interactivo para dominar las teorías de la verdad (Correspondencia, Coherencia, Pragmatismo, Consenso) y la filosofía de la ciencia (Popper y Kuhn).`,
+        resetBtn: `Reiniciar`,
+        resetConfirmBtn: `Haz clic de nuevo para reiniciar`,
+        progressLabel: `Progreso del Recorrido`,
+        pointsLabel: `Puntos de Sabiduría`,
+        archonName: `Arconte del Saber`,
+        archonKicker: `Arconte · Guía Filosófica`,
+        welcomeKicker: `Acogida en la Academia`,
+        welcomeHeading: `Bienvenido a la Academia del Saber`,
+        welcomeDesc: `Completarás dos rutas filosóficas guiado por el Arconte del Saber: en la primera, descubrirás qué significa que algo sea verdadero; en la segunda, distinguirás ciencia y pseudociencia y analizarás las revoluciones científicas.`,
+        welcomeRules: [
+          `Lee las <strong>Claves del Sabio</strong> y los textos filosóficos originales antes de abordar cada reto.`,
+          `Las respuestas correctas otorgan <strong>Puntos de Sabiduría</strong> y desbloquean progresivamente la siguiente fase.`,
+          `Cada error ofrece una justificación inmediata basada en los apuntes y alimenta tu informe final de repaso.`
+        ],
+        welcomePreviewKicker: `Productos Articuladores`,
+        welcomePreview1: `<strong>Ruta 1:</strong> Matriz Sintética DUA interactiva de las 4 Teorías de la Verdad (Sesiones 41-42).`,
+        welcomePreview2: `<strong>Ruta 2:</strong> Dossier de Auditoría Epistemológica: test de falsabilidad y esquema circular de Kuhn (Sesiones 43-44).`,
+        welcomePreview3: `<strong>Diagnóstico:</strong> Informe personalizado con los conceptos concretos a repasar según tus errores.`,
+        tab1Kicker: `Ruta 1 · Sesiones 41-42`,
+        tab1Title: `La Naturaleza de la Verdad`,
+        tab2Kicker: `Ruta 2 · Sesiones 43-44`,
+        tab2Title: `Demarcación y Cambio en la Ciencia`,
+        tab3Kicker: `Síntesis y Evaluación`,
+        tab3Title: `Diagnóstico Epistemológico`,
+        tab3Status: `Informe personalizado`,
+        phasesCompleted: `fases completadas`,
+        pillR1_1: `1.1 Correspondencia y Coherencia`,
+        pillR1_2: `1.2 Pragmatismo y Consenso`,
+        pillR1_3: `1.3 Matriz Sintética DUA`,
+        pillR2_1: `2.1 Popper y Falsacionismo`,
+        pillR2_2: `2.2 Kuhn y Revoluciones`,
+        pillR2_3: `2.3 Dossier Epistemológico`,
+        lockedLabel: `Bloqueada`,
+        completedLabel: `Completada`,
+        unlockedLabel: `Disponible`,
+        ranks: [
+          { min: 0, label: `Aprendiz` },
+          { min: 75, label: `Investigador` },
+          { min: 160, label: `Dialéctico` },
+          { min: 250, label: `Maestro del Saber` }
+        ],
+        archonMessages: {
+          route1_1: `Primera parada, discípulo: las frases "Este cuaderno es blanco" y "La suma de los ángulos de un triángulo es 180 grados" no se verifican igual. ¡Distingue la correspondencia empírica de la coherencia lógica!`,
+          route1_2: `Llegan otros dos criterios de verdad: el pragmatismo de William James mira lo que funciona en la práctica; el consenso de Habermas exige un diálogo libre de coacciones. ¡Cuidado con la manipulación!`,
+          route1_3: `Es hora de sintetizar las cuatro teorías. Completa la Matriz DUA de 4 cuadrantes combinando la definición, un ejemplo y el riesgo o límite principal de cada teoría.`,
+          route2_1: `Trazaremos la frontera de la ciencia con Karl Popper. Recuerda el cisne negro: millones de confirmaciones no prueban una ley universal, pero una sola observación contraria puede refutarla.`,
+          route2_2: `Pasamos de la lógica de Popper a la historia de Thomas Kuhn: la ciencia no avanza por mera acumulación lineal. Cuando crecen las anomalías estalla una crisis y cambia todo el paradigma, como del geocentrismo al heliocentrismo.`,
+          route2_3: `¡Prueba práctica final en el Dossier Epistemológico! Audita cuatro afirmaciones con el test de falsabilidad de Popper y reconstruye el ciclo circular de Kuhn aplicado a los modelos astronómicos.`,
+          report: `Aquí tienes el Diagnóstico Epistemológico de tu Odisea. Revisa tus Puntos de Sabiduría, tu dominio por bloque y los conceptos específicos que conviene repasar.`
+        },
+        clavesTitle: `Claves del Sabio`,
+        nextPhaseBtn: `Ir a la siguiente fase`,
+        prevPhaseBtn: `Volver a la fase anterior`,
+        goReportBtn: `Ver Informe Diagnóstico`,
+        goRoute2Btn: `Ir a la Ruta 2`,
+        checkBtn: `Comprobar`,
+        selectPrompt: `-- Seleccionar --`,
+        phaseCompleteBanner: `¡Fase completada! Has desbloqueado el siguiente paso.`,
+        lockedHint: `Debes completar la fase anterior para desbloquear esta.`
+      }
+    };
+
+    /* =========================================================================
+       CURRICULUM CONTENT (FROM SOURCE NOTEBOOK)
+       ========================================================================= */
+    const CONTENT = {
+      /* ---------------- ROUTE 1 · PHASE 1.1 (SESIÓN 41) ---------------- */
+      r1_1: {
+        eu: {
+          title: `41. Saioa: Korrespondentzia eta Koherentzia`,
+          tag: `Egia Materiala vs. Formala`,
+          claves: [
+            {
+              title: `Korrespondentzia (egia materiala / enpirikoa)`,
+              desc: `Pentsamenduaren edo hizkuntzaren eta <strong>errealitate objektiboaren</strong> arteko bat etortzea da. Mundu fisikoari eta zentzumenei/esperientziari begiratuta egiaztatzen da (adib.: <em>"Koaderno hau zuria da"</em>).`,
+              quote: `"Izan ere, dena ez dela esatea edo ez dena badela esatea faltsua da; aldiz, dena badela eta ez dena ez dela esatea egia da. Beraz, zerbait badela edo ez dela dioenak egia esango du edo gezurra esango du."`,
+              author: `Aristoteles, Metafisika, IV. liburua, 7. kapitulua (1011b)`
+            },
+            {
+              title: `Koherentzia (egia formala / logikoa)`,
+              desc: `Proposizio baten eta <strong>sistema oso baten</strong> arteko kontraesanik eza da. Ez da kanpoko mundura begiratzen, baizik eta sistema logiko, matematiko edo kontzeptual baten barne-arauetara (adib.: <em>"Triangelu baten angeluen batura 180 gradu da"</em>).`,
+              quote: `"Egia osotasuna da. Baina osotasuna bere garapenaren bidez osatzen den esentzia besterik ez da. Absolutuaz esan behar da funtsean emaitza dela, amaieran baino ez dela benetan dena..."`,
+              author: `G.W.F. Hegel, Izpirituaren Fenomenologia (Hitzaurrea)`
+            }
+          ],
+          challengeTitle: `Ariketa-fitxa: Noiz balio du irizpide bakoitzak zientzietan?`,
+          challengeInstr: `Aztertu ondorengo bost baieztapenak. Aukeratu bakoitzerako egia-irizpidea (Korrespondentzia ala Koherentzia) eta justifikatu nola egiaztatzen den.`,
+          labelCriterion: `Egia-irizpidea`,
+          labelReason: `Zergatia (Nola egiaztatzen da?)`,
+          criteriaOptions: [
+            { value: `corr`, text: `Korrespondentzia` },
+            { value: `coh`, text: `Koherentzia` }
+          ],
+          reasonOptions: [
+            { value: `emp_phys`, text: `Behaketaz eta esperimentuz egiaztatzen da mundu fisikoan (egia enpirikoa).` },
+            { value: `geom_sys`, text: `Geometriaren axioma eta arau logikoetatik ondorioztatzen da kontraesanik gabe.` },
+            { value: `fic_sys`, text: `Fikziozko eleberri-sistema baten barruko kontakizunarekin bat dator, kanpoko errealitatean existitu gabe.` },
+            { value: `emp_sense`, text: `Kanpoko errealitateari zentzumenen bidez begiratuta egiaztatzen da.` },
+            { value: `logic_rule`, text: `Logika formalaren eta identitate-erlazioaren barne-arauetatik dator.` }
+          ]
+        },
+        es: {
+          title: `Sesión 41: Correspondencia y Coherencia`,
+          tag: `Verdad Material vs. Formal`,
+          claves: [
+            {
+              title: `Correspondencia (verdad material / empírica)`,
+              desc: `Adecuación entre el pensamiento o lenguaje y la <strong>realidad objetiva</strong>. Se comprueba mirando al mundo físico a través de los sentidos y la experiencia (ej.: <em>"Este cuaderno es blanco"</em>).`,
+              quote: `"Decir de lo que es que no es, o de lo que no es que es, es falso; mientras que decir de lo que es que es, y de lo que no es que no es, es verdadero."`,
+              author: `Aristóteles, Metafísica, Libro IV, cap. 7 (1011b)`
+            },
+            {
+              title: `Coherencia (verdad formal / lógica)`,
+              desc: `Ausencia de contradicción entre una proposición y un <strong>sistema completo</strong>. No se mira al mundo exterior, sino a las reglas internas de la razón, la lógica o las matemáticas (ej.: <em>"La suma de los ángulos de un triángulo es 180 grados"</em>).`,
+              quote: `"Lo verdadero es el todo. Pero el todo es solamente la esencia que se completa mediante su desarrollo. De lo absoluto hay que decir que es esencialmente resultado, que solo al final es lo que es en verdad..."`,
+              author: `G.W.F. Hegel, Fenomenología del Espíritu (Prólogo)`
+            }
+          ],
+          challengeTitle: `Ficha práctica: ¿Cuándo sirve cada criterio en las ciencias?`,
+          challengeInstr: `Analiza las cinco afirmaciones siguientes. Elige el criterio de verdad adecuado (Correspondencia o Coherencia) y justifica cómo se verifica.`,
+          labelCriterion: `Criterio de verdad`,
+          labelReason: `Justificación (¿Cómo se verifica?)`,
+          criteriaOptions: [
+            { value: `corr`, text: `Correspondencia` },
+            { value: `coh`, text: `Coherencia` }
+          ],
+          reasonOptions: [
+            { value: `emp_phys`, text: `Se verifica mediante observación y experimento en el mundo físico (verdad empírica).` },
+            { value: `geom_sys`, text: `Se deduce sin contradicción desde los axiomas y reglas de la geometría.` },
+            { value: `fic_sys`, text: `Coincide con las reglas internas del relato ficticio, aunque no exista en el mundo físico.` },
+            { value: `emp_sense`, text: `Se comprueba mirando a la realidad exterior mediante los sentidos.` },
+            { value: `logic_rule`, text: `Proviene de las reglas internas de la lógica formal y la relación de identidad.` }
+          ]
+        },
+        cases: [
+          {
+            id: `c1`,
+            pillar: `corr_coh`,
+            statement_eu: `1. "Ura 100 °C-tan irakiten hasten da itsas mailan."`,
+            statement_es: `1. "El agua empieza a hervir a 100 °C al nivel del mar."`,
+            ansCrit: `corr`,
+            ansReason: `emp_phys`,
+            fb_eu_ok: `Zuzen! Fisikako eta kimikako lege enpirikoa da: termometroarekin eta behaketarekin egiaztatzen da mundu fisikoan (korrespondentzia).`,
+            fb_es_ok: `¡Correcto! Es un enunciado empírico de la física: se verifica mediante observación y medición en el mundo físico (correspondencia).`,
+            fb_eu_err: `Okerra. Ez da arau matematiko huts bat: itsas mailan ura berotuz eta neurtuz egiaztatu behar da mundu fisikoan (Korrespondentzia).`,
+            fb_es_err: `Incorrecto. No es una regla formal pura: requiere observar y medir el mundo físico a nivel del mar (Correspondencia).`
+          },
+          {
+            id: `c2`,
+            pillar: `corr_coh`,
+            statement_eu: `2. "Pitagorasen teorema zuzena da edozein triangelu angeluzuzenetan (a² + b² = c²)."`,
+            statement_es: `2. "El teorema de Pitágoras es correcto en todo triángulo rectángulo (a² + b² = c²)."`,
+            ansCrit: `coh`,
+            ansReason: `geom_sys`,
+            fb_eu_ok: `Zuzen! Egia formala da: geometria euklidearraren sistema axiomatikoaren barruko koherentzia logikotik ondorioztatzen da.`,
+            fb_es_ok: `¡Correcto! Es verdad formal: se demuestra por coherencia lógica dentro del sistema axiomático de la geometría.`,
+            fb_eu_err: `Okerra. Matematikako teoremak ez dira zentzumenekin neurtuz frogatzen behin betiko, sistema geometrikoaren barne-koherentziaz baizik (Koherentzia).`,
+            fb_es_err: `Incorrecto. Los teoremas matemáticos no se prueban observando objetos físicos, sino por coherencia deductiva dentro del sistema geométrico.`
+          },
+          {
+            id: `c3`,
+            pillar: `corr_coh`,
+            statement_eu: `3. "Eleberri batean, Sherlock Holmes Londresko Baker Streeteko 221B zenbakian bizi da."`,
+            statement_es: `3. "En la novela, Sherlock Holmes vive en el número 221B de Baker Street, Londres."`,
+            ansCrit: `coh`,
+            ansReason: `fic_sys`,
+            fb_eu_ok: `Bikain! Fikziozko testu-sistema baten barruan koherentea da, nahiz eta errealitate fisikoan Holmesik ez egon. Horrek erakusten du koherentziaren muga!`,
+            fb_es_ok: `¡Excelente! Es coherente dentro del sistema de la novela, aunque Sherlock Holmes no exista en la realidad física. ¡Eso ilustra el límite de la coherencia!`,
+            fb_eu_err: `Kontuz! Sherlock Holmes fikziozko pertsonaia da: ezin da errealitate fisikoan egiaztatu, Conan Doyleren eleberri-sistemaren barne-koherentzian baizik.`,
+            fb_es_err: `¡Atención! Sherlock Holmes es ficticio: no hay correspondencia con una persona real, sino coherencia interna con el sistema narrativo de la novela.`
+          },
+          {
+            id: `c4`,
+            pillar: `corr_coh`,
+            statement_eu: `4. "Gaur goizean euria ari du Portugaleten."`,
+            statement_es: `4. "Esta mañana está lloviendo en Portugalete."`,
+            ansCrit: `corr`,
+            ansReason: `emp_sense`,
+            fb_eu_ok: `Zuzen! Gertaera enpiriko partikularra da: leihotik begiratuta eta zentzumenen bidez egiaztatzen da errealitatearekin bat datorren.`,
+            fb_es_ok: `¡Correcto! Es un hecho empírico concreto: se verifica mirando por la ventana mediante los sentidos si coincide con la realidad.`,
+            fb_eu_err: `Okerra. Eguraldia ezin da logika hutsaz deduzitu: errealitate objektibora begiratu behar da zentzumenen bidez (Korrespondentzia).`,
+            fb_es_err: `Incorrecto. El tiempo atmosférico no se deduce por pura lógica; hay que mirar a la realidad objetiva con los sentidos (Correspondencia).`
+          },
+          {
+            id: `c5`,
+            pillar: `corr_coh`,
+            statement_eu: `5. "Baldin eta A = B eta B = C, orduan A = C."`,
+            statement_es: `5. "Si A = B y B = C, entonces A = C."`,
+            ansCrit: `coh`,
+            ansReason: `logic_rule`,
+            fb_eu_ok: `Zuzen! Arrazoimen logiko-formal hutsa da (berdintasunaren iragankortasuna); edozein eduki enpirikotik kanpo dago egiaztatuta.`,
+            fb_es_ok: `¡Correcto! Es un principio puramente lógico-formal (propiedad transitiva) válido con independencia de la experiencia física.`,
+            fb_eu_err: `Okerra. Sinbolo abstraktuak dira; beraz, ezin dira zentzumenen bidez egiaztatu. Logika formalaren koherentzia da irizpidea.`,
+            fb_es_err: `Incorrecto. Son símbolos formales abstractos; no dependen de observación empírica sino de la coherencia lógica.`
+          }
+        ]
+      },
+
+      /* ---------------- ROUTE 1 · PHASE 1.2 (SESIÓN 42) ---------------- */
+      r1_2: {
+        eu: {
+          title: `42. Saioa: Pragmatismoa eta Adostasun Dialektikoa`,
+          tag: `Erabilgarritasuna vs. Elkarrizketa Ideala`,
+          claves: [
+            {
+              title: `Pragmatismoa (William James, C.S. Peirce)`,
+              desc: `Egia praktikan <strong>funtzionatzen duena</strong> da eta ondorio erabilgarriak dituena (adib.: mapa bat egiazkoa da helmugara iristeko balio badit). <em>Arriskua:</em> erabilgarria den gezur edo manipulazio bat "egia"tzat hartzea.`,
+              quote: `"Ideia egiazkoak bereganatu, baliozkotu, egiaztatu eta egiazta ditzakegunak dira... Ideia baten egia ez da bertan geldirik dagoen propietate bat. Egia gertatu egiten zaio ideia bati. Egiazko bihurtzen da, gertaerek egiten dute egiazko."`,
+              author: `William James, Pragmatismoa (VI. hitzaldia)`
+            },
+            {
+              title: `Adostasunaren Teoria (Jürgen Habermas, K.O. Apel)`,
+              desc: `Egia <strong>elkarrizketa-egoera ideal</strong> batean lortutako akordio arrazionala da: parte-hartzaile guztiek aukera berdinak dituzte argudiatzeko, galdetzeko eta zalantzan jartzeko, inolako barneko edo kanpoko hertsadurarik gabe, <strong>argudio onenaren indarrak</strong> bakarrik agintzen duenean.`,
+              quote: `"Egia deitzen diogu baieztapen batek aldarrikatzen duen baliozkotasun-uzia betetzeari... Baieztapen bat egiazkoa dela esateko baldintza da beste guztien balizko adostasuna. Horretarako, ezinbestekoa da elkarrizketa-egoera ideal bat..."`,
+              author: `Jürgen Habermas, Komunikazio-ekintzaren teoria`
+            }
+          ],
+          challengeTitle: `Dilema Praktikoak: Plazeboa eta Demokrazia`,
+          challengeInstr: `Aztertu 42. saioko hiru kasu hauek eta aukeratu analisi filosofiko zorrotzena.`
+        },
+        es: {
+          title: `Sesión 42: Pragmatismo y Consenso Dialéctico`,
+          tag: `Utilidad Práctica vs. Diálogo Ideal`,
+          claves: [
+            {
+              title: `Pragmatismo (William James, C.S. Peirce)`,
+              desc: `La verdad es lo que <strong>funciona en la práctica</strong> y produce consecuencias útiles (ej.: un mapa es verdadero si me lleva al destino). <em>Riesgo:</em> tomar por "verdadero" un engaño o manipulación porque resulta útil.`,
+              quote: `"Las ideas verdaderas son aquellas que podemos asimilar, hacer válidas, corroborar y verificar... La verdad de una idea no es una propiedad estancada en ella. La verdad le acontece a una idea. Llega a ser cierta, los hechos la hacen cierta."`,
+              author: `William James, Pragmatismo (Conferencia VI)`
+            },
+            {
+              title: `Teoría del Consenso (Jürgen Habermas, K.O. Apel)`,
+              desc: `La verdad es el acuerdo racional alcanzado en una <strong>situación ideal de diálogo</strong>: todos los participantes tienen iguales oportunidades de argumentar, preguntar y cuestionar, sin coacciones internas ni externas, donde solo manda la <strong>fuerza del mejor argumento</strong>.`,
+              quote: `"Llamamos verdad al cumplimiento de la pretensión de validez que reivindica una afirmación... La condición para la verdad es el posible acuerdo de todos los demás. Para ello es imprescindible una situación ideal de diálogo..."`,
+              author: `Jürgen Habermas, Teoría de la acción comunicativa`
+            }
+          ],
+          challengeTitle: `Dilemas Prácticos: El Placebo y la Democracia`,
+          challengeInstr: `Analiza estos tres dilemas de la sesión 42 y selecciona la respuesta filosóficamente rigurosa.`
+        },
+        questions: [
+          {
+            id: `q1_2_1`,
+            pillar: `prag_cons`,
+            prompt_eu: `1. Mediku batek azukrezko pilula bat (plazeboa) ematen dio paziente bati, "sendagai indartsua" dela esanez, eta pazientea sendatu egiten da. Zer erakusten du dilema honek pragmatismoari buruz?`,
+            prompt_es: `1. Un médico da una pastilla de azúcar (placebo) a un paciente diciéndole que es un "fármaco potente", y el paciente se cura. ¿Qué muestra este dilema sobre el pragmatismo?`,
+            options_eu: [
+              `Baieztapenak ondorio erabilgarria izan du praktikan (sendatzea), baina horrek agerian uzten du pragmatismoaren arriskua: erabilgarria den gezur bat egiatzat hartzea.`,
+              `Azukrezko pilula kimikoki sendagai indartsu bihurtu da, William Jamesentzat gertaerek beti errealitate fisikoa aldatzen baitute.`,
+              `Korrespondentziaren eta pragmatismoaren artean ez dago desberdintasunik, biek errealitate objektiboa berdin neurtzen baitute.`
+            ],
+            options_es: [
+              `La afirmación tuvo un efecto útil en la práctica (la curación), pero esto revela el riesgo del pragmatismo: confundir una mentira o manipulación útil con la verdad.`,
+              `La pastilla de azúcar se ha convertido químicamente en un fármaco potente, porque para William James la utilidad cambia la composición física.`,
+              `No hay ninguna diferencia entre correspondencia y pragmatismo, pues ambos miden exactamente igual la realidad objetiva.`
+            ],
+            correct: 0,
+            fb_eu_ok: `Oso ondo! Pragmatismoaren ikuspegitik "funtzionatu" du, baina gezur bat zen errealitateari dagokionez. Horixe da teoria pragmatikoaren muga nagusia.`,
+            fb_es_ok: `¡Exacto! En términos prácticos "funcionó", pero era falso en cuanto a correspondencia. Ese es precisamente el gran límite o riesgo del pragmatismo.`,
+            fb_eu_err: `Berrikusi 42. saioko plazeboaren dilema: "funtzionatzeak" (pragmatismoak) ez du gezurra egia bihurtzen errealitate objektiboan; hortxe dago pragmatismoaren arriskua.`,
+            fb_es_err: `Repasa el dilema del placebo de la sesión 42: que algo "funcione" (pragmatismo) no convierte la falsedad empírica en verdad objetiva; ahí reside el riesgo pragmático.`
+          },
+          {
+            id: `q1_2_2`,
+            pillar: `prag_cons`,
+            prompt_eu: `2. Gizarte demokratiko batean adimen artifiziala arautzeko lege "bidezko" bat adosteko, nahikoa al da gehiengoaren boto soila Habermasen arabera?`,
+            prompt_es: `2. Para decidir qué es "justo" en una ley sobre inteligencia artificial en democracia, ¿basta según Habermas con una mera votación mayoritaria?`,
+            options_eu: [
+              `Bai, gehiengoak bozkatzen duena automatikoki bihurtzen delako egia arrazionala, eztabaidarik gabe ere.`,
+              `Ez: gehiengoaren botoa interes-akordio pragmatiko bat izan daiteke; adostasun benetakoak aurretik elkarrizketa libre, simetriko eta argudioetan oinarritua eskatzen du.`,
+              `Ez, Habermasek dio zientzialariek bakarrik bozkatu behar dutela, herritarrek ezin dutelako elkarrizketan parte hartu.`
+            ],
+            options_es: [
+              `Sí, porque lo que vota la mayoría se convierte automáticamente en verdad racional aunque no haya debate previo.`,
+              `No: una mayoría puede ser un mero pacto de intereses; el consenso habermasiano exige antes un diálogo libre, simétrico y guiado por el mejor argumento.`,
+              `No, porque Habermas defiende que solo los científicos deben decidir sin participación ciudadana.`
+            ],
+            correct: 1,
+            fb_eu_ok: `Zuzen! Habermasek bereizten ditu interes-paktu soila eta komunikazio-ekintzaren bidezko adostasun arrazionala.`,
+            fb_es_ok: `¡Correcto! Habermas distingue claramente entre un pacto estratégico de intereses y un consenso racional fruto de la acción comunicativa.`,
+            fb_eu_err: `Kontuz! Gehiengo batek interes edo manipulazio baten ondorioz bozka dezake. Habermasek baldintza dialogiko simetrikoak eskatzen ditu aurretik.`,
+            fb_es_err: `¡Cuidado! Una mayoría puede responder a intereses estratégicos; Habermas exige condiciones de diálogo simétrico previas al acuerdo.`
+          },
+          {
+            id: `q1_2_3`,
+            pillar: `prag_cons`,
+            prompt_eu: `3. Eztabaidan parte-hartzaileetako batek gezurra erabiltzen badu edo botere ekonomiko/mediatiko gehiago badu besteak isilarazteko, izan al daiteke adostasuna "egiazkoa" Habermasen ustez?`,
+            prompt_es: `3. Si en un debate un participante miente o usa su poder económico/mediático para imponerse, ¿puede considerarse "verdadero" el consenso resultante según Habermas?`,
+            options_eu: [
+              `Ez, elkarrizketa-egoera ideala hausten delako: ez dago aukera-berdintasunik eta hertsadura dago; argudio onenaren indarrak ez du agindu.`,
+              `Bai, azkenean dokumentu bat sinatzen badute adostasun formal bat lortu delako.`,
+              `Bai, baldin eta botere gehien duenak pragmatismoaren izenean emaitza erabilgarria lortzen badu.`
+            ],
+            options_es: [
+              `No, porque se rompe la situación ideal de diálogo: falta igualdad de oportunidades, hay coacción y no manda la fuerza del mejor argumento.`,
+              `Sí, siempre que firmen un acuerdo final, pues ya existe consenso formal.`,
+              `Sí, si quien tiene más poder consigue resultados útiles en clave pragmática.`
+            ],
+            correct: 0,
+            fb_eu_ok: `Hori da! Barneko eta kanpoko hertsadurarik eza ezinbesteko baldintza da Habermasen adostasunaren teorian.`,
+            fb_es_ok: `¡Exacto! La ausencia de coacción externa o interna y la simetría entre hablantes son requisitos indispensables en Habermas.`,
+            fb_eu_err: `Okerra. Botere mediatikoak edo gezurrak elkarrizketa-egoera ideala suntsitzen dute; beraz, akordio hori ez da adostasun dialektiko egiazkoa.`,
+            fb_es_err: `Incorrecto. El poder mediático o la mentira destruyen la situación ideal de diálogo; por tanto, no es un consenso válido según Habermas.`
+          }
+        ]
+      },
+
+      /* ---------------- ROUTE 1 · PHASE 1.3 (DUA MATRIX) ---------------- */
+      r1_3: {
+        eu: {
+          title: `DUA Produktua: Lau Egia-Teorien Matrize Sintetikoa`,
+          tag: `42. Saioko Ebidentzia`,
+          instr: `Osatu lau koadranteak apunteetako sintesi-taularekin bat etorriz. Teoria bakoitzari bere definizio laburra, adibidea eta muga edo arrisku nagusia esleitu behar dizkiozu.`,
+          lblDef: `Definizio laburra (Zer da egia?)`,
+          lblEx: `Adibide bat`,
+          lblRisk: `Muga edo arrisku nagusia`,
+          checkMatrixBtn: `Egiaztatu DUA Matrizea`
+        },
+        es: {
+          title: `Producto DUA: Matriz Sintética de las Cuatro Teorías`,
+          tag: `Evidencia de la Sesión 42`,
+          instr: `Completa los cuatro cuadrantes según la tabla sintética de los apuntes. Asigna a cada teoría su definición breve, un ejemplo y su riesgo o límite principal.`,
+          lblDef: `Definición breve (¿Qué es la verdad?)`,
+          lblEx: `Un ejemplo`,
+          lblRisk: `Límite o riesgo principal`,
+          checkMatrixBtn: `Verificar Matriz DUA`
+        },
+        defs: [
+          { id: `d_corr`, eu: `Pentsamenduaren eta errealitate objektiboaren arteko bat etortzea.`, es: `Adecuación entre el pensamiento y la realidad objetiva.` },
+          { id: `d_coh`, eu: `Proposizio baten eta sistema oso baten arteko kontraesanik eza.`, es: `Ausencia de contradicción entre una proposición y todo un sistema.` },
+          { id: `d_prag`, eu: `Praktikan funtzionatzen duena eta ondorio erabilgarriak dituena.`, es: `Lo que funciona en la práctica y tiene consecuencias útiles.` },
+          { id: `d_cons`, eu: `Elkarrizketa libre, arrazional eta simetriko batean lortutako akordioa.`, es: `Acuerdo alcanzado en un diálogo libre, racional y simétrico.` }
+        ],
+        examples: [
+          { id: `e_corr`, eu: `"Elurra zuria da" (kanpora begiratuta egiaztatzen da).`, es: `"La nieve es blanca" (se comprueba mirando al exterior).` },
+          { id: `e_coh`, eu: `2 + 2 = 4 sistema aritmetikoaren barruan.`, es: `2 + 2 = 4 dentro del sistema aritmético.` },
+          { id: `e_prag`, eu: `Mapa bat egiazkoa da helmugara iristeko balio badit.`, es: `Un mapa es verdadero si me sirve para llegar al destino.` },
+          { id: `e_cons`, eu: `Zientzialarien komunitate batek frogak eztabaidatu ondoren adostutako ondorioa.`, es: `Conclusión acordada por una comunidad científica tras debatir pruebas.` }
+        ],
+        risks: [
+          { id: `r_corr`, eu: `Ezin da aplikatu errealitate fisikotik kanpoko gauzei (matematika, etika).`, es: `No puede aplicarse a realidades fuera del mundo físico (matemáticas, ética).` },
+          { id: `r_coh`, eu: `Sistema oso bat barrutik koherentea izan daiteke, baina errealitatearekin zerikusirik ez izan (eleberri bat).`, es: `Un sistema entero puede ser internamente coherente pero no tener relación con la realidad (una novela).` },
+          { id: `r_prag`, eu: `Erabilgarria den gezur bat edo manipulazio bat "egia"tzat har daiteke.`, es: `Una mentira útil o una manipulación pueden tomarse como "verdad".` },
+          { id: `r_cons`, eu: `Praktikan oso zaila da botererik eta interesik gabeko elkarrizketa ideala lortzea.`, es: `En la práctica es muy difícil lograr un diálogo ideal sin poder ni intereses.` }
+        ],
+        quadrants: [
+          { id: `q_corr`, pillar: `corr_coh`, name_eu: `1. Korrespondentzia`, name_es: `1. Correspondencia`, authors: `Aristoteles, Santo Tomas`, ansDef: `d_corr`, ansEx: `e_corr`, ansRisk: `r_corr` },
+          { id: `q_coh`, pillar: `corr_coh`, name_eu: `2. Koherentzia`, name_es: `2. Coherencia`, authors_eu: `Hegel, Matematikariak`, authors_es: `Hegel, Matemáticos`, ansDef: `d_coh`, ansEx: `e_coh`, ansRisk: `r_coh` },
+          { id: `q_prag`, pillar: `prag_cons`, name_eu: `3. Pragmatismoa`, name_es: `3. Pragmatismo`, authors: `William James, C.S. Peirce`, ansDef: `d_prag`, ansEx: `e_prag`, ansRisk: `r_prag` },
+          { id: `q_cons`, pillar: `prag_cons`, name_eu: `4. Adostasuna`, name_es: `4. Consenso`, authors: `Jürgen Habermas, K.O. Apel`, ansDef: `d_cons`, ansEx: `e_cons`, ansRisk: `r_cons` }
+        ]
+      },
+
+      /* ---------------- ROUTE 2 · PHASE 2.1 (SESIÓN 43: POPPER) ---------------- */
+      r2_1: {
+        eu: {
+          title: `43. Saioa: Karl Popper eta Falsazionismoa`,
+          tag: `Indukzioaren Arazoa eta Demarkazioa`,
+          claves: [
+            {
+              title: `Indukzioaren arazoa eta asimetria logikoa`,
+              desc: `Europan mila zisne zuri ikusteak ez du logikoki frogatzen <em>"zisne guztiak zuriak dira"</em> lege unibertsala. Baina <strong>zisne beltz bakar batek</strong> (Australian aurkitutakoak bezala) behin betiko gezurtatzen du legea.`,
+              quote: `"Onartuko dut sistema bat enpirikotzat edo zientifikotzat hartuko dela, baldin eta esperientziaren bidez egiaztatua izateko gai bada. Kontsiderazio horiek iradokitzen dute demarkazio-irizpide gisa ez dela egiaztapena hartu behar, baizik eta sistema baten falsagarritasuna..."`,
+              author: `Karl R. Popper, Ikerketa zientifikoaren logika (1. zatia, I, 6)`
+            },
+            {
+              title: `Demarkazio-irizpidea: Zientzia vs. Sasi-zientzia`,
+              desc: `Zientziak ez du aurrera egiten baieztapenak bilatuz, hipotesiak <strong>gezurtatzen (falsatzen)</strong> saiatuz baizik. Teoria zientifiko batek esperientziak gezurtatua izateko aukera izan behar du, <strong>irtenbide-tranparik (aitzakiarik)</strong> jarri gabe.`,
+              quote: `"...sistema zientifiko enpiriko batek esperientziak gezurtatua izateko aukera izan behar du."`,
+              author: `Karl R. Popper, Ikerketa zientifikoaren logika`
+            }
+          ],
+          swanLabTitle: `Esperimentu Logikoa: Zisneen Asimetria`,
+          swanLabDesc: `Gehitu zisne zuriak ikusteko ea lege unibertsala behin betiko frogatzen den, eta gehitu zisne beltz bat asimetria ikusteko.`,
+          btnAddWhite: `+ Zisne zuria ikusi`,
+          btnAddBlack: `+ Zisne beltza aurkitu (Australia)`,
+          btnResetSwans: `Garbitu behaketak`,
+          challengeTitle: `Popperren Logika Ulertzeko Galderak`,
+          challengeInstr: `Erantzun bi galdera hauei 2.2 fasera igarotzeko.`
+        },
+        es: {
+          title: `Sesión 43: Karl Popper y el Falsacionismo`,
+          tag: `El Problema de la Inducción y Demarcación`,
+          claves: [
+            {
+              title: `El problema de la inducción y la asimetría lógica`,
+              desc: `Observar mil cisnes blancos en Europa no demuestra lógicamente la ley universal <em>"todos los cisnes son blancos"</em>. Sin embargo, <strong>un solo cisne negro</strong> (como los descubiertos en Australia) la refuta definitivamente.`,
+              quote: `"Admitiré que un sistema es empírico o científico solo si es susceptible de ser contrastado por la experiencia. Estas consideraciones sugieren que como criterio de demarcación no debe tomarse la verificabilidad, sino la falsabilidad de un sistema..."`,
+              author: `Karl R. Popper, La lógica de la investigación científica (Parte I, cap. I, sec. 6)`
+            },
+            {
+              title: `Criterio de demarcación: Ciencia vs. Pseudociencia`,
+              desc: `La ciencia no avanza acumulando confirmaciones, sino intentando <strong>refutar (falsar)</strong> sus hipótesis. Toda teoría científica debe exponer su forma lógica para poder ser refutada empíricamente, sin <strong>trampas de escape (excusas ad hoc)</strong>.`,
+              quote: `"...un sistema científico empírico debe poder ser refutado por la experiencia."`,
+              author: `Karl R. Popper, La lógica de la investigación científica`
+            }
+          ],
+          swanLabTitle: `Laboratorio Lógico: La Asimetría de los Cisnes`,
+          swanLabDesc: `Añade cisnes blancos para comprobar si demuestran la ley universal y añade un cisne negro para ver la asimetría lógica.`,
+          btnAddWhite: `+ Observar cisne blanco`,
+          btnAddBlack: `+ Descubrir cisne negro (Australia)`,
+          btnResetSwans: `Reiniciar observaciones`,
+          challengeTitle: `Cuestiones sobre la Lógica de Popper`,
+          challengeInstr: `Responde estas dos cuestiones para desbloquear la fase 2.2.`
+        },
+        questions: [
+          {
+            id: `q2_1_1`,
+            pillar: `popper`,
+            prompt_eu: `1. Zer esan nahi du Popperren "asimetria logikoak" zientzian?`,
+            prompt_es: `1. ¿Qué significa la "asimetría lógica" de Popper en la ciencia?`,
+            options_eu: [
+              `Behaketa positiboek ezin dutela lege unibertsal bat behin betiko frogatu, baina kontra-adibide bakar batek gezurtatu (falsatu) dezakeela.`,
+              `Zientzialari guztiek beti baieztapen berriak bilatu behar dituztela teoria bat babesteko, kontra-adibideak baztertuz.`,
+              `Zisne beltzak existitzen ez direnez, indukzioa metodo logiko perfektua dela.`
+            ],
+            options_es: [
+              `Que millones de observaciones positivas no prueban definitivamente una ley universal, pero un solo contraejemplo sí puede refutarla (falsarla).`,
+              `Que los científicos deben buscar únicamente confirmaciones y descartar los contraejemplos.`,
+              `Que la inducción es lógicamente infalible si se observan suficientes casos positivos.`
+            ],
+            correct: 0,
+            fb_eu_ok: `Zuzen! Asimetria horrengatik aukeratu zuen Popperrek falsagarritasuna —eta ez egiaztapena— demarkazio-irizpide gisa.`,
+            fb_es_ok: `¡Correcto! Esa asimetría explica por qué Popper propone la falsabilidad —y no la verificación— como criterio de demarcación.`,
+            fb_eu_err: `Okerra. Gogoratu zisneen adibidea: mila zisne zurik ez dute legea frogatzen, baina zisne beltz batek legea botatzen du.`,
+            fb_es_err: `Incorrecto. Recuerda el ejemplo de los cisnes: mil cisnes blancos no prueban la ley, pero un cisne negro la refuta.`
+          },
+          {
+            id: `q2_1_2`,
+            pillar: `popper`,
+            prompt_eu: `2. Hipotesi bat gezurtatzeko arriskutik salbatzeko, defendatzaileak etengabe aitzakiak ("energia negatiboak blokeatu du", "frogak ezabatu dituzte") asmatzen baditu, nola kalifikatzen du Popperrek?`,
+            prompt_es: `2. Si para blindar una hipótesis frente a la refutación se inventan excusas constantes ("lo bloqueó tu energía negativa", "borraron todas las pruebas"), ¿cómo lo clasifica Popper?`,
+            options_eu: [
+              `Sasi-zientzia da: irtenbide-tranpak erabiltzen ditu eta ez du falsatzaile potentzialik onartzen.`,
+              `Zientzia aurreratua da, teoria babestea beti hobea delako zalantzan jartzea baino.`,
+              `Egia formala da, Hegel eta matematiken moduan.`
+            ],
+            options_es: [
+              `Es pseudociencia: utiliza trampas de escape (excusas) y no admite ningún falsador potencial.`,
+              `Es ciencia avanzada, porque blindar una teoría contra las críticas demuestra su solidez.`,
+              `Es verdad formal por coherencia interna, igual que la geometría.`
+            ],
+            correct: 0,
+            fb_eu_ok: `Bikain! Teoria bat ustez "dena azaltzen duena" eta inoiz gezurtatu ezin dena denean, ez da zientifikoa Popperren ustez.`,
+            fb_es_ok: `¡Excelente! Una teoría que se blinda con excusas para resultar irrefutable cae fuera de la ciencia empírica según Popper.`,
+            fb_eu_err: `Okerra. Popperrentzat, zientziaren bereizgarria gezurtatua izateko arriskua hartzea da; aitzakiek sasi-zientzia bihurtzen dute.`,
+            fb_es_err: `Incorrecto. Para Popper, la marca de la ciencia es arriesgarse a ser refutada; las trampas de escape delatan a la pseudociencia.`
+          }
+        ]
+      },
+
+      /* ---------------- ROUTE 2 · PHASE 2.2 (SESIÓN 44: KUHN) ---------------- */
+      r2_2: {
+        eu: {
+          title: `44. Saioa: Thomas Kuhn eta Paradigma-Iraultzak`,
+          tag: `Eredu Geozentrikotik Heliozentrikora`,
+          claves: [
+            {
+              title: `Paradigma eta Zientzia Arrunta`,
+              desc: `<strong>Paradigma</strong> komunitate zientifiko batek aldi batez onartzen duen arazo- eta konponbide-eredua da. <strong>Zientzia arruntak</strong> ez du berritasun teorikorik bilatzen; paradigma horren barruan ikertzen du (adib.: Ptolomeoren eredu geozentrikoa).`,
+              quote: `"‘Paradigma’ esaten diedan horiek unibertsalki onartutako lorpen zientifikoak dira, aldi batez arazo- eta konponbide-ereduak eskaintzen dizkiotenak praktikatzaileen komunitate bati..."`,
+              author: `Thomas S. Kuhn, Iraultza zientifikoen egitura (Hitzaurrea eta II. kap.)`
+            },
+            {
+              title: `Anomaliak, Krisia eta Inkonmensurabilitatea`,
+              desc: `Naturak paradigmaren itxaropenak hausten dituenean <strong>anomaliak</strong> agertzen dira (adib.: Marten atzerakako mugimendua). Horiek konpontzeko adabakiek (<em>epizikloak</em>) huts egiten dutenean <strong>krisia</strong> sortzen da, eta <strong>iraultza zientifikoak</strong> paradigma berria dakar (Koperniko/Galileo). Bi paradigmak <strong>inkonmensurabilitatean (neurtezintasunean)</strong> daude: mundua ikusteko bi modu desberdin dira, eta aldaketan faktore sozial eta kulturalak ere daude.`,
+              quote: `"Aurkikuntza hasten da anomalia baten kontzientziarekin... Paradigmak aldatzen direnean, mundua bera aldatzen da haiekin batera."`,
+              author: `Thomas S. Kuhn, Iraultza zientifikoen egitura (VI. eta X. kap.)`
+            }
+          ],
+          challengeTitle: `Kasu-azterketa: Eredu Geozentrikotik Heliozentrikora`,
+          challengeInstr: `Aztertu astronomiako eredu-aldaketaren egitura logiko eta epistemologikoa Kuhnen kontzeptuekin.`
+        },
+        es: {
+          title: `Sesión 44: Thomas Kuhn y las Revoluciones Científicas`,
+          tag: `Del Modelo Geocéntrico al Heliocéntrico`,
+          claves: [
+            {
+              title: `Paradigma y Ciencia Normal`,
+              desc: `Un <strong>paradigma</strong> es una realización científica universalmente reconocida que proporciona modelos de problemas y soluciones a una comunidad durante un tiempo. La <strong>ciencia normal</strong> no busca novedades radicales, sino resolver enigmas dentro del paradigma (ej.: modelo geocéntrico de Ptolomeo).`,
+              quote: `"Considero ‘paradigmas’ a realizaciones científicas universalmente reconocidas que, durante cierto tiempo, proporcionan modelos de problemas y soluciones a una comunidad de practicantes..."`,
+              author: `Thomas S. Kuhn, La estructura de las revoluciones científicas (Prefacio y cap. II)`
+            },
+            {
+              title: `Anomalías, Crisis e Inconmensurabilidad`,
+              desc: `Cuando la naturaleza viola las expectativas del paradigma surgen <strong>anomalías</strong> (ej.: movimiento retrógrado de Marte). Si los parches matemáticos (<em>epiciclos</em>) fracasan y el calendario se desfasa, estalla la <strong>crisis</strong> y una <strong>revolución científica</strong> (Copérnico y Galileo) instaura un nuevo paradigma. Ambos paradigmas son <strong>inconmensurables</strong>: son formas distintas de ver el mundo, con factores lógicos, sociales y culturales.`,
+              quote: `"El descubrimiento comienza con la percepción de la anomalía... Cuando cambian los paradigmas, el mundo mismo cambia con ellos."`,
+              author: `Thomas S. Kuhn, La estructura de las revoluciones científicas (caps. VI y X)`
+            }
+          ],
+          challengeTitle: `Estudio de caso: Del Modelo Geocéntrico al Heliocéntrico`,
+          challengeInstr: `Analiza la estructura lógica y epistemológica del cambio de modelo astronómico con los conceptos de Kuhn.`
+        },
+        questions: [
+          {
+            id: `q2_2_1`,
+            pillar: `kuhn`,
+            prompt_eu: `1. Ptolomeoren eredu geozentrikoan, planeten atzerakako mugimenduak azaltzeko astronomoek matematika-adabaki konplexuak ("epizikloak") asmatu zituzten. Zer adierazten du horrek Kuhnen arabera?`,
+            prompt_es: `1. En el modelo geocéntrico de Ptolomeo, para explicar el movimiento retrógrado de los planetas se inventaron complejos parches matemáticos ("epiciclos"). ¿Qué indica esto según Kuhn?`,
+            options_eu: [
+              `Zientzialariek anomaliak konpondu nahi dituztela paradigma zaharra bota gabe, zientzia arruntaren babesean.`,
+              `Berehala paradigma berri bat sortu zutela lehenengo anomalia ikusi bezain laster.`,
+              `Ptolomeoren eredua Popperren falsazionismo-testa gainditzeko egokitua zegoela.`
+            ],
+            options_es: [
+              `Que la comunidad intenta absorber las anomalías sin abandonar el viejo paradigma, protegiendo la ciencia normal.`,
+              `Que abandonaron inmediatamente el geocentrismo en cuanto apareció la primera anomalía.`,
+              `Que los epiciclos hacían más falsable al modelo geocéntrico según Popper.`
+            ],
+            correct: 0,
+            fb_eu_ok: `Zuzen! Kuhnek dioenez, zientzia arruntak paradigma babesten du lehenik, adabakien bidez anomaliak egokituz, krisia lehertu arte.`,
+            fb_es_ok: `¡Correcto! Según Kuhn, la comunidad intenta primero encajar las anomalías mediante parches dentro del paradigma vigente antes de que estalle la crisis.`,
+            fb_eu_err: `Okerra. Epizikloak "adabakiak" ziren hain zuzen ere Lurra erdigunean mantentzeko eta paradigma zaharra ez botatzeko.`,
+            fb_es_err: `Incorrecto. Los epiciclos eran parches matemáticos para conservar el paradigma geocéntrico sin desecharlo.`
+          },
+          {
+            id: `q2_2_2`,
+            pillar: `kuhn`,
+            prompt_eu: `2. Zer esan nahi du Ptolomeoren eta Koperniko/Galileoren paradigmak "inkonmensurabilitatean" (neurtezintasun-egoeran) daudela esateak?`,
+            prompt_es: `2. ¿Qué significa afirmar que el paradigma de Ptolomeo y el de Copérnico/Galileo son "inconmensurables"?`,
+            options_eu: [
+              `Bi ereduak oinarrizko kontzeptu, arau eta mundu-ikuskera guztiz desberdinetan oinarritzen direla, eta ezin direla neurgailu komun neutro bakar batez zuzenean alderatu.`,
+              `Paradigma berria beti aurrekoaren gehikuntza matematiko txiki bat besterik ez dela.`,
+              `Eredu heliozentrikoak ez duela inolako behaketarik behar egiazkoa izateko.`
+            ],
+            options_es: [
+              `Que parten de conceptos, reglas y cosmovisiones tan distintas que no pueden compararse directamente mediante una única medida común neutra.`,
+              `Que el nuevo paradigma es simplemente una acumulación lineal de datos sobre el anterior.`,
+              `Que los científicos eligen paradigmas al azar sin observar el cielo.`
+            ],
+            correct: 0,
+            fb_eu_ok: `Oso ondo! Paradigmak aldatzean, zientzialariek tresna berriak hartzen dituzte eta mundua bera aldatzen da haiekin batera.`,
+            fb_es_ok: `¡Muy bien! Al cambiar de paradigma, los científicos adoptan nuevos instrumentos y miran a lugares nuevos; cambian sus criterios de significado.`,
+            fb_eu_err: `Okerra. Inkonmensurabilitateak haustura adierazten du: ez da bilakaera lineala edo pilaketa hutsa, baizik eta mundua ikusteko moduen arteko jauzia.`,
+            fb_es_err: `Incorrecto. La inconmensurabilidad señala precisamente una ruptura conceptual, no una simple acumulación lineal.`
+          },
+          {
+            id: `q2_2_3`,
+            pillar: `kuhn`,
+            prompt_eu: `3. Zientzialari batek paradigma zaharra defendatzen badu datu berrien aurka, zertan bereizten da Kuhnen ikuspegia Popperrenetik?`,
+            prompt_es: `3. Cuando un científico defiende el paradigma antiguo frente a datos nuevos, ¿en qué se diferencia la explicación de Kuhn de la de Popper?`,
+            options_eu: [
+              `Kuhnek nabarmentzen du faktore sozialek, kulturalek, ohiturak eta komunitatearen presioak ere eragiten dutela, ez soilik arrazoi logiko hutsak.`,
+              `Kuhnek dio zientzialariak inoiz ez direla aldatzen belaunaldi berriak jaio arte ere.`,
+              `Popperrek uste du faktore sozialak direla zientziaren motore bakarra.`
+            ],
+            options_es: [
+              `Kuhn destaca que no solo intervienen razones lógicas puras, sino también factores sociológicos, culturales, hábitos y la presión de la comunidad científica.`,
+              `Kuhn sostiene que ningún científico puede comprender jamás un paradigma distinto.`,
+              `Popper defiende que la ciencia avanza únicamente por presiones sociales y culturales.`
+            ],
+            correct: 0,
+            fb_eu_ok: `Zuzen! Popperrek logikari begiratzen dio; Kuhnek, aldiz, zientziaren historia erreala eta komunitate zientifikoaren psikologia/soziologia ere txertatzen ditu.`,
+            fb_es_ok: `¡Correcto! Mientras Popper se centra en la lógica de la refutación, Kuhn incorpora los factores históricos, sociológicos y culturales de la comunidad científica.`,
+            fb_eu_err: `Okerra. Kuhnek zientziaren dimentsio historikoa eta soziologikoa azpimarratzen ditu (ohitura, komunitatea, kultura), Popperren eredu logiko hutsaren aurrean.`,
+            fb_es_err: `Incorrecto. Kuhn subraya la dimensión sociológica e histórica de la comunidad científica frente a la visión puramente lógica de Popper.`
+          }
+        ]
+      },
+
+      /* ---------------- ROUTE 2 · PHASE 2.3 (EPISTEMOLOGY DOSSIER) ---------------- */
+      r2_3: {
+        eu: {
+          title: `Dossierra: Falsazionismo-Testa eta Kuhnen Ziklo Zirkularra`,
+          tag: `43. eta 44. Saioetako Produktua`,
+          part1Title: `A Zatia: Popperren Falsazionismo-Testa (43. Saioa)`,
+          part1Instr: `Ikuskatu lau baieztapenak: hautatu zer falsatzaile potentzial beharko litzatekeen, irtenbide-tranparik duen eta Zientzia ala Sasi-zientzia den.`,
+          lblFalsifier: `Falsatzaile potentziala`,
+          lblTrap: `Irtenbide-tranpa?`,
+          lblClass: `Sailkapena`,
+          auditBtn: `Ikuskatu dossierra`,
+          part2Title: `B Zatia: Kuhnen Ziklo Zientifikoaren Eskema Zirkularra (44. Saioa)`,
+          part2Instr: `Sakatu eskema zirkularreko urratsak xehetasunak ikusteko, eta ordenatu behean eredu geozentrikotik heliozentrikorako 5 urratsak.`,
+          cycleInspectorHint: `Egin klik diagrama zirkularreko edozein urratsetan haren azalpena irakurtzeko.`,
+          cycleVerifyBtn: `Egiaztatu Ziklo Zirkularra`,
+          trapOptions: [
+            { value: `yes`, text: `Bai (Aitzakiak ditu)` },
+            { value: `no`, text: `Ez (Arriskua onartzen du)` }
+          ],
+          classOptions: [
+            { value: `sci`, text: `Zientzia` },
+            { value: `pseudo`, text: `Sasi-zientzia` }
+          ],
+          falsifierOptions: [
+            { value: `none_ambig`, text: `Bat ere ez: edozer gertatuta ere beti da egia (anbiguoa da).` },
+            { value: `grav_float`, text: `Euskarririk gabeko gorputz astun bat gorantz flotatzea erori beharrean.` },
+            { value: `none_erased`, text: `Bat ere ez: frogak sistematiko ezabatzen dituztela dio eta ezin da gezurtatu.` },
+            { value: `none_excuse`, text: `Ezeztatze oro pazientearen "energia negatiboari" egozten zaio.` }
+          ]
+        },
+        es: {
+          title: `Dossier: Test de Falsabilidad y Ciclo Circular de Kuhn`,
+          tag: `Producto de las Sesiones 43 y 44`,
+          part1Title: `Parte A: Test de Falsacionismo de Popper (Sesión 43)`,
+          part1Instr: `Audita estas cuatro afirmaciones reales: indica su falsador potencial, si usa trampa de escape y si es Ciencia o Pseudociencia.`,
+          lblFalsifier: `Falsador potencial`,
+          lblTrap: `¿Trampa de escape?`,
+          lblClass: `Clasificación`,
+          auditBtn: `Auditar dossier`,
+          part2Title: `Parte B: Esquema Circular del Ciclo Científico de Kuhn (Sesión 44)`,
+          part2Instr: `Haz clic en los nodos del diagrama circular para inspeccionar cada fase, y empareja abajo los 5 pasos del caso astronómico.`,
+          cycleInspectorHint: `Haz clic en cualquier nodo del diagrama circular para consultar su definición y su papel en el giro copernicano.`,
+          cycleVerifyBtn: `Verificar Ciclo Circular`,
+          trapOptions: [
+            { value: `yes`, text: `Sí (Usa excusas)` },
+            { value: `no`, text: `No (Asume el riesgo)` }
+          ],
+          classOptions: [
+            { value: `sci`, text: `Ciencia` },
+            { value: `pseudo`, text: `Pseudociencia` }
+          ],
+          falsifierOptions: [
+            { value: `none_ambig`, text: `Ninguno: ocurra lo que ocurra siempre acierta por ambigüedad.` },
+            { value: `grav_float`, text: `Un cuerpo pesado sin soporte que flote hacia arriba en vez de caer.` },
+            { value: `none_erased`, text: `Ninguno: afirma que todas las pruebas se borran sistemáticamente.` },
+            { value: `none_excuse`, text: `Cualquier fallo se atribuye a la "energía negativa" del paciente.` }
+          ]
+        },
+        auditCases: [
+          {
+            id: `a1`,
+            pillar: `popper`,
+            title_eu: `A. Horoskopoa: "Gaur Leo zeinukoei ustekabeko aldaketa bat gertatuko zaie lanean edo ikasketetan, edo agian dena berdin mantenduko da."`,
+            title_es: `A. Horóscopo: "Hoy a los Leo les ocurrirá un cambio inesperado en trabajo o estudios, o quizá todo siga igual."`,
+            ansFalsifier: `none_ambig`,
+            ansTrap: `yes`,
+            ansClass: `pseudo`,
+            fb_eu_ok: `Zuzen! Aukera guztiak estaltzen ditu ("aldaketa edo berdin"); beraz, ez du falsatzaile potentzialik eta sasi-zientzia da.`,
+            fb_es_ok: `¡Correcto! Al cubrir todas las posibilidades ("cambio o igual"), es infalsable y entra en la pseudociencia.`,
+            fb_eu_err: `Okerra. Irakurri esaldia: aldaketa badago asmatzen du, eta berdin jarraitzen badu ere bai! Ezin da gezurtatu (Sasi-zientzia).`,
+            fb_es_err: `Incorrecto. Si hay cambio acierta, y si todo sigue igual también. No hay observación que la refute (Pseudociencia).`
+          },
+          {
+            id: `a2`,
+            pillar: `popper`,
+            title_eu: `B. Grabitatearen legea: "Lurraren gainazaletik gertu askatzen den edozein gorputz astun lurrera eroriko da."`,
+            title_es: `B. Ley de la gravedad: "Cualquier cuerpo pesado que se suelte cerca de la superficie terrestre caerá al suelo."`,
+            ansFalsifier: `grav_float`,
+            ansTrap: `no`,
+            ansClass: `sci`,
+            fb_eu_ok: `Zuzen! Argi zehazten du zer behaketak gezurtatuko lukeen, ez du aitzakiarik jartzen eta zientifikoa da.`,
+            fb_es_ok: `¡Correcto! Define claramente qué observación empírica la refutaría, sin trampas de escape: es ciencia.`,
+            fb_eu_err: `Okerra. Grabitatearen legeak arriskua hartzen du: harri bat askatu eta zerura flotatuz joango balitz, gezurtatua legoke (Zientzia).`,
+            fb_es_err: `Incorrecto. La ley de la gravedad se arriesga empíricamente: si una piedra soltada flotara hacia arriba, quedaría falsada (Ciencia).`
+          },
+          {
+            id: `a3`,
+            pillar: `popper`,
+            title_eu: `C. Konspirazio-teoria: "Mundua estralurtarrek gobernatzen dute, baina gizaki arrunten itxura hartzen dute eta froga guztiak ezabatzen dituzte inork ikus ez ditzan."`,
+            title_es: `C. Teoría conspirativa: "El mundo lo gobiernan extraterrestres que adoptan apariencia humana y borran todas las pruebas para no ser vistos."`,
+            ansFalsifier: `none_erased`,
+            ansTrap: `yes`,
+            ansClass: `pseudo`,
+            fb_eu_ok: `Zuzen! Frogarik ez aurkitzea bera teoriaren "froga" bihurtzen du tranpa gisa; ezin da esperientziaz gezurtatu (Sasi-zientzia).`,
+            fb_es_ok: `¡Correcto! Convierte la ausencia de pruebas en confirmación mediante una trampa inmunizadora: es pseudociencia.`,
+            fb_eu_err: `Okerra. "Froga guztiak ezabatzen dituzte" esatean, gezurtatzeko aukera oro ixten du. Irtenbide-tranpa du (Sasi-zientzia).`,
+            fb_es_err: `Incorrecto. Decir que "borran todas las pruebas" bloquea cualquier refutación posible (trampa de escape -> Pseudociencia).`
+          },
+          {
+            id: `a4`,
+            pillar: `popper`,
+            title_eu: `D. Homeopatia / Mirari-produktua: "Ur honek estresa sendatzen du; sendatzen ez bazaitu, zure energia negatiboak blokeatu duelako da."`,
+            title_es: `D. Homeopatía / Producto milagro: "Esta agua cura el estrés; si no te cura, es porque tu energía negativa la ha bloqueado."`,
+            ansFalsifier: `none_excuse`,
+            ansTrap: `yes`,
+            ansClass: `pseudo`,
+            fb_eu_ok: `Zuzen! Sendatzen ez badu, errua bezeroaren "energia negatiboari" botatzen dio. Aitzakia klasikoa da (Sasi-zientzia).`,
+            fb_es_ok: `¡Correcto! Si falla el remedio, culpa a la "energía negativa" del paciente. Es una excusa ad hoc típica de la pseudociencia.`,
+            fb_eu_err: `Okerra. Teoria honek inoiz ez du onartzen huts egin dezakeenik; beti dauka prest aitzakia ("energia negatiboa"). Sasi-zientzia da.`,
+            fb_es_err: `Incorrecto. Esta afirmación nunca acepta quedar refutada; ya lleva incorporada la excusa ("energía negativa"). Es pseudociencia.`
+          }
+        ],
+        kuhnSteps: [
+          {
+            id: `k1`,
+            num: `1`,
+            label_eu: `1. Aurre-zientzia`,
+            label_es: `1. Preciencia`,
+            short_eu: `Aurre-zientzia`,
+            short_es: `Preciencia`,
+            desc_eu: `Eskola desberdinak daude eztabaidan, oraindik adostasuneko paradigma bateraturik gabe.`,
+            desc_es: `Diversas escuelas compiten sin haber acordado aún un paradigma unificado.`,
+            astro_eu: `Antzinaro goiztiarrean kosmosari buruzko hipotesi sakabanatuak (lurra laua, esfera anitzak) bateratu aurreko garaia.`,
+            astro_es: `Etapa previa de hipótesis dispersas sobre el cosmos antes de consolidarse un modelo unificado.`
+          },
+          {
+            id: `k2`,
+            num: `2`,
+            label_eu: `2. Zientzia arrunta`,
+            label_es: `2. Ciencia normal`,
+            short_eu: `Zientzia arrunta`,
+            short_es: `Ciencia normal`,
+            desc_eu: `Komunitateak paradigma bat onartzen du eta haren barruan lan egiten du arauak zalantzan jarri gabe.`,
+            desc_es: `La comunidad acepta un paradigma y resuelve enigmas dentro de sus reglas sin cuestionarlo.`,
+            astro_eu: `Ptolomeoren eredu geozentrikoa: Lurra erdigunean geldi eta zeruko gorputzak orbita zirkular perfektuetan.`,
+            astro_es: `Modelo geocéntrico de Ptolomeo: la Tierra inmóvil en el centro y astros en órbitas circulares perfectas.`
+          },
+          {
+            id: `k3`,
+            num: `3`,
+            label_eu: `3. Anomaliak`,
+            label_es: `3. Anomalías`,
+            short_eu: `Anomaliak`,
+            short_es: `Anomalías`,
+            desc_eu: `Naturaren datuak ez datoz bat paradigmaren iragarpenekin; adabakiak asmatzen dira.`,
+            desc_es: `Los datos observados contradicen las expectativas del paradigma; se crean parches teóricos.`,
+            astro_eu: `Planetek (Martek) atzerakako mugimendu arraroak egiten dituzte eta astronomoek epizikloak asmatzen dituzte.`,
+            astro_es: `Planetas como Marte muestran movimientos retrógrados y los astrónomos inventan epiciclos para ajustar el cálculo.`
+          },
+          {
+            id: `k4`,
+            num: `4`,
+            label_eu: `4. Krisia`,
+            label_es: `4. Crisis`,
+            short_eu: `Krisia`,
+            short_es: `Crisis`,
+            desc_eu: `Adabakiak konplexuegiak eta zehaztugabeak bihurtzen dira; konfiantza hausten da komunitatean.`,
+            desc_es: `Los parches se vuelven demasiado complejos e imprecisos; surge la desconfianza en la comunidad.`,
+            astro_eu: `Kalkuluak gero eta nahasiagoak dira eta egutegia desfasatuta dago; eredu geozentrikoaren gaineko zalantzak hazten dira.`,
+            astro_es: `Los cálculos son cada vez más imprecisos y el calendario queda desfasado; crecen las dudas sobre el geocentrismo.`
+          },
+          {
+            id: `k5`,
+            num: `5`,
+            label_eu: `5. Iraultza zientifikoa`,
+            label_es: `5. Revolución científica`,
+            short_eu: `Iraultza / Paradigma berria`,
+            short_es: `Revolución / Nuevo paradigma`,
+            desc_eu: `Paradigma berri bat ezartzen da; mundu-ikuskera erabat aldatzen da (inkonmensurabilitatea).`,
+            desc_es: `Se instaura un nuevo paradigma; cambia por completo la visión del mundo (inconmensurabilidad).`,
+            astro_eu: `Koperniko eta Galileoren eredu heliozentrikoa: Eguzkia erdigunean jartzean anomaliak desagertzen dira eta mundu-ikuskera aldatzen da.`,
+            astro_es: `Modelo heliocéntrico de Copérnico y Galileo: al situar el Sol en el centro desaparecen las anomalías y cambia la visión del mundo.`
+          }
+        ],
+        astroMatchingCases: [
+          {
+            id: `m_k2`,
+            ansStep: `k2`,
+            text_eu: `Mendeetan zehar, astronomoek Ptolomeoren eredua erabili zuten: Lurra geldi dago erdigunean eta orbitak zirkularrak dira.`,
+            text_es: `Durante siglos los astrónomos aplicaron el modelo de Ptolomeo: Tierra inmóvil en el centro y órbitas circulares.`
+          },
+          {
+            id: `m_k3`,
+            ansStep: `k3`,
+            text_eu: `Marteren atzerakako mugimendua azaltzeko, matematika-adabaki konplexuak ("epizikloak") gehitu zizkioten ereduari.`,
+            text_es: `Para explicar el movimiento retrógrado de Marte se añadieron complejos parches matemáticos ("epiciclos").`
+          },
+          {
+            id: `m_k4`,
+            ansStep: `k4`,
+            text_eu: `Egutegia desfasatuta zegoen, kalkuluak zehaztugabeak ziren eta astronomoen komunitatean zalantza sakonak sortu ziren.`,
+            text_es: `El calendario estaba desfasado, los cálculos eran imprecisos y surgieron dudas profundas en la comunidad científica.`
+          },
+          {
+            id: `m_k5`,
+            ansStep: `k5`,
+            text_eu: `Kopernikok eta Galileok Eguzkia jarri zuten erdigunean, mundu-ikuskera guztiz aldatuz (inkonmensurabilitatea).`,
+            text_es: `Copérnico y Galileo situaron el Sol en el centro, transformando radicalmente la visión del mundo (inconmensurabilidad).`
+          },
+          {
+            id: `m_k1`,
+            ansStep: `k1`,
+            text_eu: `Astronomia sistematizatu aurreko garaia, non azalpen bateratu bat oraindik sortu gabe zegoen.`,
+            text_es: `Etapa inicial anterior a la consolidación de un modelo astronómico unificado compartido por todos.`
+          }
+        ]
+      }
+    };
+
+    const DIAGNOSTIC_PILLARS = {
+      corr_coh: {
+        eu: `Korrespondentzia eta Koherentzia (41. Saioa)`,
+        es: `Correspondencia y Coherencia (Sesión 41)`,
+        tip_eu: `Bereizi ondo kanpoko errealitate enpirikoa (Aristoteles, zentzumenak) eta sistema formal edo logikoaren barne-koherentzia (Hegel, matematika, fikziozko koherentzia).`,
+        tip_es: `Distingue bien la verificación empírica externa (Aristóteles, sentidos) de la coherencia interna de un sistema lógico, matemático o narrativo (Hegel).`
+      },
+      prag_cons: {
+        eu: `Pragmatismoa eta Adostasuna (42. Saioa)`,
+        es: `Pragmatismo y Consenso (Sesión 42)`,
+        tip_eu: `Gogoratu pragmatismoaren muga (gezur erabilgarria vs. egia, plazeboa) eta Habermasen elkarrizketa-egoera idealaren baldintzak (simetria, hertsadurarik eza).`,
+        tip_es: `Repasa el límite del pragmatismo (mentira útil frente a verdad, placebo) y las condiciones de la situación ideal de diálogo de Habermas (simetría, ausencia de coacción).`
+      },
+      popper: {
+        eu: `Karl Popper eta Falsazionismoa (43. Saioa)`,
+        es: `Karl Popper y el Falsacionismo (Sesión 43)`,
+        tip_eu: `Berrikusi indukzioaren asimetria (zisne beltza) eta nola antzematen diren sasi-zientzien irtenbide-tranpak (horoskopo anbiguoa, konspirazioak, aitzakiak).`,
+        tip_es: `Repasa la asimetría lógica de la inducción (cisne negro) y cómo detectar trampas de escape en pseudociencias (horóscopos ambiguos, conspiraciones, excusas ad hoc).`
+      },
+      kuhn: {
+        eu: `Thomas Kuhn eta Paradigma-Iraultzak (44. Saioa)`,
+        es: `Thomas Kuhn y las Revoluciones Científicas (Sesión 44)`,
+        tip_eu: `Lotu Kuhnen ziklo zirkularreko 5 urratsak eredu geozentrikotik heliozentrikorako igarobidearekin, epizikloen paperarekin eta inkonmensurabilitatearekin.`,
+        tip_es: `Relaciona los 5 pasos del ciclo circular de Kuhn con el paso del geocentrismo al heliocentrismo, el papel de los epiciclos y la inconmensurabilidad.`
+      }
+    };
+
+    /* =========================================================================
+       APPLICATION STATE (PERSISTED VIA notebookAppApi)
+       ========================================================================= */
+    function getDefaultState() {
+      return {
+        lang: `eu`,
+        started: false,
+        activeRoute: `route1`,
+        phaseR1: 1,
+        phaseR2: 1,
+        points: 0,
+        completedPhases: {
+          r1_1: false,
+          r1_2: false,
+          r1_3: false,
+          r2_1: false,
+          r2_2: false,
+          r2_3: false
+        },
+        r1_1_answers: {},
+        r1_2_answers: {},
+        r1_3_answers: {},
+        r2_1_answers: {},
+        r2_2_answers: {},
+        r2_3_audit: {},
+        r2_3_cycle: {},
+        r2_3_auditDone: false,
+        r2_3_cycleDone: false,
+        selectedKuhnNode: `k2`,
+        swans: { white: 3, black: 0 },
+        errors: {
+          corr_coh: 0,
+          prag_cons: 0,
+          popper: 0,
+          kuhn: 0
+        },
+        scoredItems: {}
+      };
+    }
+
+    let appState = getDefaultState();
+
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (err) {
+        // Safe fallback if running outside host container
+      }
+    }
+
+    /* =========================================================================
+       LANGUAGE & WELCOME HANDLERS
+       ========================================================================= */
+    function setLanguage(lang) {
+      if (lang !== `eu` && lang !== `es`) return;
+      appState.lang = lang;
+      document.documentElement.lang = lang;
+      renderAll();
+      persistState();
+    }
+
+    function startOdyssey(lang) {
+      appState.lang = lang;
+      appState.started = true;
+      document.documentElement.lang = lang;
+      renderAll();
+      persistState();
+    }
+
+    function handleReset(btn) {
+      const t = I18N[appState.lang];
+      if (!btn) return;
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = t.resetConfirmBtn;
+        setTimeout(() => {
+          if (btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.textContent = I18N[appState.lang].resetBtn;
+          }
+        }, 4000);
+        return;
+      }
+      const keepLang = appState.lang;
+      appState = getDefaultState();
+      appState.lang = keepLang;
+      btn.dataset.armed = `false`;
+      renderAll();
+      persistState();
+    }
+
+    /* =========================================================================
+       NAVIGATION & PROGRESSIVE UNLOCKING
+       ========================================================================= */
+    function isPhaseUnlocked(route, phaseNum) {
+      if (phaseNum === 1) return true;
+      if (route === `route1`) {
+        if (phaseNum === 2) return !!appState.completedPhases.r1_1;
+        if (phaseNum === 3) return !!appState.completedPhases.r1_2;
+      }
+      if (route === `route2`) {
+        if (phaseNum === 2) return !!appState.completedPhases.r2_1;
+        if (phaseNum === 3) return !!appState.completedPhases.r2_2;
+      }
+      return false;
+    }
+
+    function switchRoute(route) {
+      appState.activeRoute = route;
+      renderAll();
+      persistState();
+    }
+
+    function selectPhase(route, phaseNum) {
+      if (!isPhaseUnlocked(route, phaseNum)) return;
+      if (route === `route1`) appState.phaseR1 = phaseNum;
+      if (route === `route2`) appState.phaseR2 = phaseNum;
+      appState.activeRoute = route;
+      renderAll();
+      persistState();
+    }
+
+    function awardItemPoints(itemKey, maxPoints, pillarKey, isCorrect) {
+      if (!appState.scoredItems[itemKey]) {
+        if (isCorrect) {
+          appState.points += maxPoints;
+          appState.scoredItems[itemKey] = `full`;
+        } else {
+          appState.errors[pillarKey] = (appState.errors[pillarKey] || 0) + 1;
+          appState.scoredItems[itemKey] = `retried`;
+        }
+      } else if (appState.scoredItems[itemKey] === `retried`) {
+        if (isCorrect) {
+          appState.points += Math.round(maxPoints * 0.6);
+          appState.scoredItems[itemKey] = `done_after_retry`;
+        } else {
+          appState.errors[pillarKey] = (appState.errors[pillarKey] || 0) + 1;
+        }
+      }
+    }
+
+    /* =========================================================================
+       INTERACTIVE CHALLENGE HANDLERS
+       ========================================================================= */
+    function checkR1_1Case(caseId) {
+      const critEl = document.getElementById(`sel-r1-1-crit-${caseId}`);
+      const reasonEl = document.getElementById(`sel-r1-1-reason-${caseId}`);
+      if (!critEl || !reasonEl) return;
+
+      const cObj = CONTENT.r1_1.cases.find(c => c.id === caseId);
+      if (!cObj) return;
+
+      const critVal = critEl.value;
+      const reasonVal = reasonEl.value;
+      if (!critVal || !reasonVal) return;
+
+      const isOk = critVal === cObj.ansCrit && reasonVal === cObj.ansReason;
+      appState.r1_1_answers[caseId] = { crit: critVal, reason: reasonVal, ok: isOk };
+
+      awardItemPoints(`r1_1_${caseId}`, 10, cObj.pillar, isOk);
+
+      const allDone = CONTENT.r1_1.cases.every(c => appState.r1_1_answers[c.id] && appState.r1_1_answers[c.id].ok);
+      if (allDone) appState.completedPhases.r1_1 = true;
+
+      renderAll();
+      persistState();
+    }
+
+    function answerQuiz(phaseKey, qId, optIdx) {
+      const dataObj = CONTENT[phaseKey];
+      if (!dataObj) return;
+      const qObj = dataObj.questions.find(q => q.id === qId);
+      if (!qObj) return;
+
+      const isOk = optIdx === qObj.correct;
+      const storeKey = `${phaseKey}_answers`;
+      appState[storeKey][qId] = { selected: optIdx, ok: isOk };
+
+      awardItemPoints(`${phaseKey}_${qId}`, 15, qObj.pillar, isOk);
+
+      const allDone = dataObj.questions.every(q => appState[storeKey][q.id] && appState[storeKey][q.id].ok);
+      if (allDone) appState.completedPhases[phaseKey] = true;
+
+      renderAll();
+      persistState();
+    }
+
+    function checkDUAMatrix() {
+      let allOk = true;
+      CONTENT.r1_3.quadrants.forEach(q => {
+        const dEl = document.getElementById(`dua-def-${q.id}`);
+        const eEl = document.getElementById(`dua-ex-${q.id}`);
+        const rEl = document.getElementById(`dua-risk-${q.id}`);
+        if (!dEl || !eEl || !rEl) return;
+
+        const dOk = dEl.value === q.ansDef;
+        const eOk = eEl.value === q.ansEx;
+        const rOk = rEl.value === q.ansRisk;
+        const qOk = dOk && eOk && rOk;
+
+        appState.r1_3_answers[q.id] = {
+          def: dEl.value,
+          ex: eEl.value,
+          risk: rEl.value,
+          dOk: dOk,
+          eOk: eOk,
+          rOk: rOk,
+          ok: qOk,
+          checked: true
+        };
+
+        awardItemPoints(`dua_${q.id}`, 15, q.pillar, qOk);
+        if (!qOk) allOk = false;
+      });
+
+      if (allOk) appState.completedPhases.r1_3 = true;
+      renderAll();
+      persistState();
+    }
+
+    function updateSwans(action) {
+      if (action === `white`) {
+        if (appState.swans.white < 12) appState.swans.white += 1;
+      } else if (action === `black`) {
+        appState.swans.black = 1;
+      } else if (action === `reset`) {
+        appState.swans.white = 1;
+        appState.swans.black = 0;
+      }
+      renderRoute2();
+      persistState();
+    }
+
+    function checkAuditDossier() {
+      let allOk = true;
+      CONTENT.r2_3.auditCases.forEach(ac => {
+        const fEl = document.getElementById(`audit-f-${ac.id}`);
+        const tEl = document.getElementById(`audit-t-${ac.id}`);
+        const cEl = document.getElementById(`audit-c-${ac.id}`);
+        if (!fEl || !tEl || !cEl) return;
+
+        const isOk = fEl.value === ac.ansFalsifier && tEl.value === ac.ansTrap && cEl.value === ac.ansClass;
+        appState.r2_3_audit[ac.id] = {
+          falsifier: fEl.value,
+          trap: tEl.value,
+          cls: cEl.value,
+          ok: isOk,
+          checked: true
+        };
+        awardItemPoints(`audit_${ac.id}`, 10, ac.pillar, isOk);
+        if (!isOk) allOk = false;
+      });
+
+      appState.r2_3_auditDone = allOk;
+      if (appState.r2_3_auditDone && appState.r2_3_cycleDone) {
+        appState.completedPhases.r2_3 = true;
+      }
+      renderAll();
+      persistState();
+    }
+
+    function inspectKuhnNode(nodeId) {
+      appState.selectedKuhnNode = nodeId;
+      renderRoute2();
+      persistState();
+    }
+
+    function handleKuhnNodeKey(evt, nodeId) {
+      if (evt.key === `Enter` || evt.key === ` `) {
+        evt.preventDefault();
+        inspectKuhnNode(nodeId);
+      }
+    }
+
+    function checkKuhnCycle() {
+      let allOk = true;
+      CONTENT.r2_3.astroMatchingCases.forEach(mc => {
+        const selEl = document.getElementById(`cycle-sel-${mc.id}`);
+        if (!selEl) return;
+        const isOk = selEl.value === mc.ansStep;
+        appState.r2_3_cycle[mc.id] = {
+          val: selEl.value,
+          ok: isOk,
+          checked: true
+        };
+        awardItemPoints(`cycle_${mc.id}`, 6, `kuhn`, isOk);
+        if (!isOk) allOk = false;
+      });
+
+      appState.r2_3_cycleDone = allOk;
+      if (appState.r2_3_auditDone && appState.r2_3_cycleDone) {
+        appState.completedPhases.r2_3 = true;
+      }
+      renderAll();
+      persistState();
+    }
+
+    function exportDiagnosticReport() {
+      const lang = appState.lang;
+      const t = I18N[lang];
+      const completedCount = Object.values(appState.completedPhases).filter(Boolean).length;
+      const lines = [
+        t.hdrTitle,
+        `==================================================`,
+        `${t.pointsLabel}: ${appState.points} / 300`,
+        `${t.progressLabel}: ${completedCount} / 6`,
+        ``,
+        lang === `eu` ? `BLOKEEN EBALUAZIOA:` : `EVALUACIÓN POR BLOQUES:`
+      ];
+
+      Object.keys(DIAGNOSTIC_PILLARS).forEach(pk => {
+        const errCount = appState.errors[pk] || 0;
+        const pInfo = DIAGNOSTIC_PILLARS[pk];
+        lines.push(`- ${pInfo[lang]}: ${errCount === 0 ? (lang === `eu` ? `Akatsik gabe` : `Sin errores`) : (errCount + (lang === `eu` ? ` akats` : ` errores`))}`);
+        if (errCount > 0) {
+          lines.push(`  * ${lang === `eu` ? `Berrikusteko` : `Repasar`}: ${lang === `eu` ? pInfo.tip_eu : pInfo.tip_es}`);
+        }
+      });
+
+      const content = lines.join(`\n`);
+      const filename = lang === `eu` ? `diagnostiko_epistemologikoa.txt` : `diagnostico_epistemologico.txt`;
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: content,
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: filename
+        });
+      } else {
+        const blob = new Blob([content], { type: `text/plain;charset=utf-8` });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement(`a`);
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    /* =========================================================================
+       RENDERING HELPERS
+       ========================================================================= */
+    function renderClavesHTML(title, clavesArr) {
+      const cards = clavesArr.map(c => `
+        <article class="concept-leaf">
+          <h3>${c.title}</h3>
+          <p>${c.desc}</p>
+          <blockquote class="primary-quote">
+            ${c.quote}
+            <span class="quote-author">— ${c.author}</span>
+          </blockquote>
+        </article>
+      `).join(``);
+
+      return `
+        <section class="claves-card">
+          <p class="kicker-label">${title}</p>
+          <div class="claves-grid">${cards}</div>
+        </section>
+      `;
+    }
+
+    function renderQuizHTML(phaseKey, dataObj) {
+      const lang = appState.lang;
+      const t = I18N[lang];
+      const answersMap = appState[`${phaseKey}_answers`] || {};
+      const letters = [`A`, `B`, `C`];
+
+      return dataObj.questions.map(q => {
+        const ans = answersMap[q.id];
+        const prompt = lang === `eu` ? q.prompt_eu : q.prompt_es;
+        const opts = lang === `eu` ? q.options_eu : q.options_es;
+
+        const optsHtml = opts.map((optText, idx) => {
+          let cls = `option-btn`;
+          if (ans && ans.selected === idx) {
+            cls += ans.ok ? ` selected-correct` : ` selected-wrong`;
+          }
+          return `
+            <button type="button" class="${cls}" onclick="answerQuiz('${phaseKey}', '${q.id}', ${idx})">
+              <span class="option-letter">${letters[idx]}</span>
+              <span>${optText}</span>
+            </button>
+          `;
+        }).join(``);
+
+        let fbHtml = ``;
+        if (ans) {
+          const fbText = ans.ok
+            ? (lang === `eu` ? q.fb_eu_ok : q.fb_es_ok)
+            : (lang === `eu` ? q.fb_eu_err : q.fb_es_err);
+          fbHtml = `<div class="feedback-banner ${ans.ok ? `success` : `error`}">${fbText}</div>`;
+        }
+
+        return `
+          <div class="question-card">
+            <p class="question-prompt">${prompt}</p>
+            <div class="options-list">${optsHtml}</div>
+            ${fbHtml}
+          </div>
+        `;
+      }).join(``);
+    }
+
+    function renderHeaderAndChrome() {
+      const lang = appState.lang;
+      const t = I18N[lang];
+
+      const setTxt = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+      const setHtml = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+
+      setTxt(`hdr-kicker`, t.hdrKicker);
+      setTxt(`hdr-title`, t.hdrTitle);
+      setTxt(`hdr-subtitle`, t.hdrSubtitle);
+
+      const resetBtn = document.getElementById(`btn-reset`);
+      if (resetBtn && resetBtn.dataset.armed !== `true`) {
+        resetBtn.textContent = t.resetBtn;
+      }
+
+      const btnEu = document.getElementById(`btn-lang-eu`);
+      const btnEs = document.getElementById(`btn-lang-es`);
+      if (btnEu) btnEu.classList.toggle(`active`, lang === `eu`);
+      if (btnEs) btnEs.classList.toggle(`active`, lang === `es`);
+
+      // Progress & Wisdom Points
+      const donePhases = Object.values(appState.completedPhases).filter(Boolean).length;
+      const pct = Math.round((donePhases / 6) * 100);
+      setTxt(`hud-progress-label`, t.progressLabel);
+      setTxt(`hud-progress-value`, `${donePhases} / 6 (${pct}%)`);
+      const barFill = document.getElementById(`hud-progress-fill`);
+      const barEl = document.getElementById(`hud-progress-bar`);
+      if (barFill) barFill.style.width = `${pct}%`;
+      if (barEl) barEl.setAttribute(`aria-valuenow`, String(pct));
+
+      setTxt(`hud-points`, String(appState.points));
+      setTxt(`hud-points-label`, t.pointsLabel);
+
+      let rankLabel = t.ranks[0].label;
+      t.ranks.forEach(r => { if (appState.points >= r.min) rankLabel = r.label; });
+      setTxt(`hud-rank`, rankLabel);
+
+      // Welcome Panel visibility
+      const welcomePanel = document.getElementById(`welcome-panel`);
+      if (welcomePanel) {
+        welcomePanel.classList.toggle(`hidden`, !!appState.started);
+      }
+      setTxt(`welcome-kicker`, t.welcomeKicker);
+      setTxt(`welcome-heading`, t.welcomeHeading);
+      setTxt(`welcome-desc`, t.welcomeDesc);
+      setHtml(`welcome-rules`, t.welcomeRules.map(item => `<li>${item}</li>`).join(``));
+      setTxt(`welcome-preview-kicker`, t.welcomePreviewKicker);
+      setHtml(`welcome-preview-1`, t.welcomePreview1);
+      setHtml(`welcome-preview-2`, t.welcomePreview2);
+      setHtml(`welcome-preview-3`, t.welcomePreview3);
+
+      // Tabs
+      const r1Done = [appState.completedPhases.r1_1, appState.completedPhases.r1_2, appState.completedPhases.r1_3].filter(Boolean).length;
+      const r2Done = [appState.completedPhases.r2_1, appState.completedPhases.r2_2, appState.completedPhases.r2_3].filter(Boolean).length;
+
+      setTxt(`tab1-kicker`, t.tab1Kicker);
+      setTxt(`tab1-title`, t.tab1Title);
+      setTxt(`tab1-status`, `${r1Done} / 3 ${t.phasesCompleted}`);
+      setTxt(`tab2-kicker`, t.tab2Kicker);
+      setTxt(`tab2-title`, t.tab2Title);
+      setTxt(`tab2-status`, `${r2Done} / 3 ${t.phasesCompleted}`);
+      setTxt(`tab3-kicker`, t.tab3Kicker);
+      setTxt(`tab3-title`, t.tab3Title);
+      setTxt(`tab3-status`, t.tab3Status);
+
+      const tab1 = document.getElementById(`tab-route-1`);
+      const tab2 = document.getElementById(`tab-route-2`);
+      const tab3 = document.getElementById(`tab-report`);
+      if (tab1) tab1.classList.toggle(`active`, appState.activeRoute === `route1`);
+      if (tab2) tab2.classList.toggle(`active`, appState.activeRoute === `route2`);
+      if (tab3) tab3.classList.toggle(`active`, appState.activeRoute === `report`);
+
+      // Archon Dialogue
+      setTxt(`archon-name`, t.archonName);
+      setTxt(`archon-context-kicker`, t.archonKicker);
+      let msgKey = `report`;
+      if (appState.activeRoute === `route1`) msgKey = `route1_${appState.phaseR1}`;
+      if (appState.activeRoute === `route2`) msgKey = `route2_${appState.phaseR2}`;
+      setTxt(`archon-dialogue`, t.archonMessages[msgKey]);
+
+      // Steppers
+      setTxt(`pill-r1-1-text`, t.pillR1_1);
+      setTxt(`pill-r1-2-text`, t.pillR1_2);
+      setTxt(`pill-r1-3-text`, t.pillR1_3);
+      setTxt(`pill-r2-1-text`, t.pillR2_1);
+      setTxt(`pill-r2-2-text`, t.pillR2_2);
+      setTxt(`pill-r2-3-text`, t.pillR2_3);
+
+      const pillConfigs = [
+        { id: `pill-r1-1`, route: `route1`, num: 1, done: appState.completedPhases.r1_1 },
+        { id: `pill-r1-2`, route: `route1`, num: 2, done: appState.completedPhases.r1_2 },
+        { id: `pill-r1-3`, route: `route1`, num: 3, done: appState.completedPhases.r1_3 },
+        { id: `pill-r2-1`, route: `route2`, num: 1, done: appState.completedPhases.r2_1 },
+        { id: `pill-r2-2`, route: `route2`, num: 2, done: appState.completedPhases.r2_2 },
+        { id: `pill-r2-3`, route: `route2`, num: 3, done: appState.completedPhases.r2_3 }
+      ];
+
+      pillConfigs.forEach(p => {
+        const el = document.getElementById(p.id);
+        if (!el) return;
+        const unlocked = isPhaseUnlocked(p.route, p.num);
+        const current = p.route === `route1` ? appState.phaseR1 : appState.phaseR2;
+        el.disabled = !unlocked;
+        el.classList.toggle(`active`, unlocked && current === p.num);
+        el.classList.toggle(`completed`, !!p.done);
+      });
+
+      // Route view visibility
+      const v1 = document.getElementById(`view-route1`);
+      const v2 = document.getElementById(`view-route2`);
+      const v3 = document.getElementById(`view-report`);
+      if (v1) v1.classList.toggle(`hidden`, appState.activeRoute !== `route1`);
+      if (v2) v2.classList.toggle(`hidden`, appState.activeRoute !== `route2`);
+      if (v3) v3.classList.toggle(`hidden`, appState.activeRoute !== `report`);
+    }
+
+    /* =========================================================================
+       RENDER ROUTE 1
+       ========================================================================= */
+    function renderRoute1() {
+      const container = document.getElementById(`route1-content`);
+      if (!container) return;
+      const lang = appState.lang;
+      const t = I18N[lang];
+      const phase = appState.phaseR1;
+
+      if (phase === 1) {
+        const data = CONTENT.r1_1;
+        const dLang = data[lang];
+        const isDone = appState.completedPhases.r1_1;
+
+        const casesHtml = data.cases.map(c => {
+          const saved = appState.r1_1_answers[c.id] || {};
+          const stmt = lang === `eu` ? c.statement_eu : c.statement_es;
+
+          const critOpts = [`<option value="">${t.selectPrompt}</option>`]
+            .concat(dLang.criteriaOptions.map(o => `<option value="${o.value}" ${saved.crit === o.value ? `selected` : ``}>${o.text}</option>`)).join(``);
+
+          const reasonOpts = [`<option value="">${t.selectPrompt}</option>`]
+            .concat(dLang.reasonOptions.map(o => `<option value="${o.value}" ${saved.reason === o.value ? `selected` : ``}>${o.text}</option>`)).join(``);
+
+          let fbHtml = ``;
+          if (saved.crit && saved.reason) {
+            const fbText = saved.ok
+              ? (lang === `eu` ? c.fb_eu_ok : c.fb_es_ok)
+              : (lang === `eu` ? c.fb_eu_err : c.fb_es_err);
+            fbHtml = `<div class="feedback-banner ${saved.ok ? `success` : `error`}">${fbText}</div>`;
+          }
+
+          return `
+            <div class="case-row card-wrapper">
+              <p class="case-statement">${stmt}</p>
+              <div class="form-pair">
+                <div class="field-group">
+                  <label class="field-label" for="sel-r1-1-crit-${c.id}">${dLang.labelCriterion}</label>
+                  <select class="styled-select" id="sel-r1-1-crit-${c.id}">${critOpts}</select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="sel-r1-1-reason-${c.id}">${dLang.labelReason}</label>
+                  <select class="styled-select" id="sel-r1-1-reason-${c.id}">${reasonOpts}</select>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="checkR1_1Case('${c.id}')">${t.checkBtn}</button>
+              </div>
+              ${fbHtml}
+            </div>
+          `;
+        }).join(``);
+
+        container.innerHTML = `
+          <div class="section-head">
+            <h2>${dLang.title}</h2>
+            <span class="stamp-tag ${isDone ? `done` : ``}">${isDone ? t.completedLabel : dLang.tag}</span>
+          </div>
+          ${renderClavesHTML(t.clavesTitle, dLang.claves)}
+          <section class="challenge-box">
+            <h3 style="font-family: var(--font-headline); margin: 0 0 var(--space-xs) 0; color: var(--primary);">${dLang.challengeTitle}</h3>
+            <p style="margin: 0 0 var(--space-md) 0; color: var(--on-surface-variant);">${dLang.challengeInstr}</p>
+            ${casesHtml}
+            ${isDone ? `<div class="feedback-banner success">${t.phaseCompleteBanner}</div>` : ``}
+            <div class="phase-footer-nav">
+              <span></span>
+              <button type="button" class="btn btn-primary" ${isDone ? `` : `disabled`} onclick="selectPhase('route1', 2)">
+                ${t.nextPhaseBtn} &rarr;
+              </button>
+            </div>
+          </section>
+        `;
+      } else if (phase === 2) {
+        const data = CONTENT.r1_2;
+        const dLang = data[lang];
+        const isDone = appState.completedPhases.r1_2;
+
+        container.innerHTML = `
+          <div class="section-head">
+            <h2>${dLang.title}</h2>
+            <span class="stamp-tag ${isDone ? `done` : ``}">${isDone ? t.completedLabel : dLang.tag}</span>
+          </div>
+          ${renderClavesHTML(t.clavesTitle, dLang.claves)}
+          <section class="challenge-box">
+            <h3 style="font-family: var(--font-headline); margin: 0 0 var(--space-xs) 0; color: var(--primary);">${dLang.challengeTitle}</h3>
+            <p style="margin: 0 0 var(--space-md) 0; color: var(--on-surface-variant);">${dLang.challengeInstr}</p>
+            ${renderQuizHTML(`r1_2`, data)}
+            ${isDone ? `<div class="feedback-banner success">${t.phaseCompleteBanner}</div>` : ``}
+            <div class="phase-footer-nav">
+              <button type="button" class="btn btn-secondary" onclick="selectPhase('route1', 1)">&larr; ${t.prevPhaseBtn}</button>
+              <button type="button" class="btn btn-primary" ${isDone ? `` : `disabled`} onclick="selectPhase('route1', 3)">${t.nextPhaseBtn} &rarr;</button>
+            </div>
+          </section>
+        `;
+      } else if (phase === 3) {
+        const data = CONTENT.r1_3;
+        const dLang = data[lang];
+        const isDone = appState.completedPhases.r1_3;
+
+        const quadsHtml = data.quadrants.map(q => {
+          const saved = appState.r1_3_answers[q.id] || {};
+          const qName = lang === `eu` ? q.name_eu : q.name_es;
+          const authors = q.authors || (lang === `eu` ? q.authors_eu : q.authors_es);
+
+          const defOpts = [`<option value="">${t.selectPrompt}</option>`]
+            .concat(data.defs.map(d => `<option value="${d.id}" ${saved.def === d.id ? `selected` : ``}>${d[lang]}</option>`)).join(``);
+          const exOpts = [`<option value="">${t.selectPrompt}</option>`]
+            .concat(data.examples.map(e => `<option value="${e.id}" ${saved.ex === e.id ? `selected` : ``}>${e[lang]}</option>`)).join(``);
+          const riskOpts = [`<option value="">${t.selectPrompt}</option>`]
+            .concat(data.risks.map(r => `<option value="${r.id}" ${saved.risk === r.id ? `selected` : ``}>${r[lang]}</option>`)).join(``);
+
+          let fbHtml = ``;
+          if (saved.checked) {
+            if (saved.ok) {
+              fbHtml = `<div class="feedback-banner success">${lang === `eu` ? `Koadrantea guztiz zuzen!` : `¡Cuadrante completamente correcto!`}</div>`;
+            } else {
+              const wrongParts = [];
+              if (!saved.dOk) wrongParts.push(dLang.lblDef);
+              if (!saved.eOk) wrongParts.push(dLang.lblEx);
+              if (!saved.rOk) wrongParts.push(dLang.lblRisk);
+              fbHtml = `<div class="feedback-banner error">${lang === `eu` ? `Berrikusi: ` : `Revisa: `}${wrongParts.join(`, `)}</div>`;
+            }
+          }
+
+          return `
+            <article class="dua-quadrant">
+              <div class="dua-header">
+                <h3>${qName}</h3>
+                <span class="dua-authors">${authors}</span>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="dua-def-${q.id}">${dLang.lblDef}</label>
+                <select class="styled-select" id="dua-def-${q.id}">${defOpts}</select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="dua-ex-${q.id}">${dLang.lblEx}</label>
+                <select class="styled-select" id="dua-ex-${q.id}">${exOpts}</select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="dua-risk-${q.id}">${dLang.lblRisk}</label>
+                <select class="styled-select" id="dua-risk-${q.id}">${riskOpts}</select>
+              </div>
+              ${fbHtml}
+            </article>
+          `;
+        }).join(``);
+
+        container.innerHTML = `
+          <div class="section-head">
+            <h2>${dLang.title}</h2>
+            <span class="stamp-tag ${isDone ? `done` : ``}">${isDone ? t.completedLabel : dLang.tag}</span>
+          </div>
+          <section class="challenge-box">
+            <p style="margin: 0 0 var(--space-md) 0; color: var(--on-surface-variant);">${dLang.instr}</p>
+            <div class="dua-grid">${quadsHtml}</div>
+            <div style="margin-top: var(--space-lg); display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: center;">
+              <button type="button" class="btn btn-primary" onclick="checkDUAMatrix()">${dLang.checkMatrixBtn}</button>
+              ${isDone ? `<span class="stamp-tag done">${t.phaseCompleteBanner}</span>` : ``}
+            </div>
+            <div class="phase-footer-nav">
+              <button type="button" class="btn btn-secondary" onclick="selectPhase('route1', 2)">&larr; ${t.prevPhaseBtn}</button>
+              <button type="button" class="btn btn-primary" onclick="switchRoute('route2')">${t.goRoute2Btn} &rarr;</button>
+            </div>
+          </section>
+        `;
+      }
+    }
+
+    /* =========================================================================
+       RENDER ROUTE 2
+       ========================================================================= */
+    function renderRoute2() {
+      const container = document.getElementById(`route2-content`);
+      if (!container) return;
+      const lang = appState.lang;
+      const t = I18N[lang];
+      const phase = appState.phaseR2;
+
+      if (phase === 1) {
+        const data = CONTENT.r2_1;
+        const dLang = data[lang];
+        const isDone = appState.completedPhases.r2_1;
+
+        // Interactive Swan SVGs
+        const whiteSwans = Array.from({ length: appState.swans.white }).map(() => `
+          <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" fill="var(--surface-container-low)" stroke="var(--outline-variant)" stroke-width="1.5"></circle>
+            <path d="M10 21 C10 17, 15 17, 17 19 C19 15, 19 10, 22 9 C24 9, 24 11, 22 12 C21 15, 22 22, 16 23 C12 23, 10 22, 10 21 Z" fill="var(--surface-container-low)" stroke="var(--primary)" stroke-width="1.5"></path>
+          </svg>
+        `).join(``);
+
+        const blackSwan = appState.swans.black > 0 ? `
+          <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="16" cy="16" r="14" fill="var(--error-bg)" stroke="var(--error)" stroke-width="2"></circle>
+            <path d="M10 21 C10 17, 15 17, 17 19 C19 15, 19 10, 22 9 C24 9, 24 11, 22 12 C21 15, 22 22, 16 23 C12 23, 10 22, 10 21 Z" fill="var(--primary)"></path>
+          </svg>
+        ` : ``;
+
+        const swanVerdict = appState.swans.black > 0
+          ? (lang === `eu`
+              ? `GEZURTATUA! Zisne beltz bakar batek lege unibertsala behin betiko bota du.`
+              : `¡REFUTADA! Un solo cisne negro ha falsado definitivamente la ley universal.`)
+          : (lang === `eu`
+              ? `${appState.swans.white} zisne zuri ikusita ere, ezin da logikoki frogatu "zisne guztiak zuriak dira" legea.`
+              : `Aunque observes ${appState.swans.white} cisnes blancos, no puedes demostrar lógicamente la ley universal.`);
+
+        container.innerHTML = `
+          <div class="section-head">
+            <h2>${dLang.title}</h2>
+            <span class="stamp-tag ${isDone ? `done` : ``}">${isDone ? t.completedLabel : dLang.tag}</span>
+          </div>
+          ${renderClavesHTML(t.clavesTitle, dLang.claves)}
+
+          <div class="swan-lab">
+            <div style="flex: 1 1 280px;">
+              <p class="kicker-label" style="margin-bottom: var(--space-xs);">${dLang.swanLabTitle}</p>
+              <p style="margin: 0 0 var(--space-sm) 0; font-size: 0.9375rem;">${dLang.swanLabDesc}</p>
+              <div class="swan-visual">${whiteSwans}${blackSwan}</div>
+              <p style="margin: var(--space-sm) 0 0 0; font-weight: 600; color: ${appState.swans.black > 0 ? `var(--error)` : `var(--primary)`};">${swanVerdict}</p>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-xs);">
+              <button type="button" class="btn btn-secondary" onclick="updateSwans('white')">${dLang.btnAddWhite}</button>
+              <button type="button" class="btn btn-primary" onclick="updateSwans('black')">${dLang.btnAddBlack}</button>
+              <button type="button" class="btn btn-subtle" onclick="updateSwans('reset')">${dLang.btnResetSwans}</button>
+            </div>
+          </div>
+
+          <section class="challenge-box" style="margin-top: var(--space-lg);">
+            <h3 style="font-family: var(--font-headline); margin: 0 0 var(--space-xs) 0; color: var(--primary);">${dLang.challengeTitle}</h3>
+            <p style="margin: 0 0 var(--space-md) 0; color: var(--on-surface-variant);">${dLang.challengeInstr}</p>
+            ${renderQuizHTML(`r2_1`, data)}
+            ${isDone ? `<div class="feedback-banner success">${t.phaseCompleteBanner}</div>` : ``}
+            <div class="phase-footer-nav">
+              <span></span>
+              <button type="button" class="btn btn-primary" ${isDone ? `` : `disabled`} onclick="selectPhase('route2', 2)">${t.nextPhaseBtn} &rarr;</button>
+            </div>
+          </section>
+        `;
+      } else if (phase === 2) {
+        const data = CONTENT.r2_2;
+        const dLang = data[lang];
+        const isDone = appState.completedPhases.r2_2;
+
+        container.innerHTML = `
+          <div class="section-head">
+            <h2>${dLang.title}</h2>
+            <span class="stamp-tag ${isDone ? `done` : ``}">${isDone ? t.completedLabel : dLang.tag}</span>
+          </div>
+          ${renderClavesHTML(t.clavesTitle, dLang.claves)}
+          <section class="challenge-box">
+            <h3 style="font-family: var(--font-headline); margin: 0 0 var(--space-xs) 0; color: var(--primary);">${dLang.challengeTitle}</h3>
+            <p style="margin: 0 0 var(--space-md) 0; color: var(--on-surface-variant);">${dLang.challengeInstr}</p>
+            ${renderQuizHTML(`r2_2`, data)}
+            ${isDone ? `<div class="feedback-banner success">${t.phaseCompleteBanner}</div>` : ``}
+            <div class="phase-footer-nav">
+              <button type="button" class="btn btn-secondary" onclick="selectPhase('route2', 1)">&larr; ${t.prevPhaseBtn}</button>
+              <button type="button" class="btn btn-primary" ${isDone ? `` : `disabled`} onclick="selectPhase('route2', 3)">${t.nextPhaseBtn} &rarr;</button>
+            </div>
+          </section>
+        `;
+      } else if (phase === 3) {
+        const data = CONTENT.r2_3;
+        const dLang = data[lang];
+        const isDone = appState.completedPhases.r2_3;
+
+        // Part A: Popper Audit Table/Cards
+        const auditHtml = data.auditCases.map(ac => {
+          const saved = appState.r2_3_audit[ac.id] || {};
+          const title = lang === `eu` ? ac.title_eu : ac.title_es;
+
+          const fOpts = [`<option value="">${t.selectPrompt}</option>`]
+            .concat(dLang.falsifierOptions.map(o => `<option value="${o.value}" ${saved.falsifier === o.value ? `selected` : ``}>${o.text}</option>`)).join(``);
+          const tOpts = [`<option value="">${t.selectPrompt}</option>`]
+            .concat(dLang.trapOptions.map(o => `<option value="${o.value}" ${saved.trap === o.value ? `selected` : ``}>${o.text}</option>`)).join(``);
+          const cOpts = [`<option value="">${t.selectPrompt}</option>`]
+            .concat(dLang.classOptions.map(o => `<option value="${o.value}" ${saved.cls === o.value ? `selected` : ``}>${o.text}</option>`)).join(``);
+
+          let fbHtml = ``;
+          if (saved.checked) {
+            const fbText = saved.ok
+              ? (lang === `eu` ? ac.fb_eu_ok : ac.fb_es_ok)
+              : (lang === `eu` ? ac.fb_eu_err : ac.fb_es_err);
+            fbHtml = `<div class="feedback-banner ${saved.ok ? `success` : `error`}">${fbText}</div>`;
+          }
+
+          return `
+            <div class="case-row">
+              <p class="case-statement" style="font-size: var(--body-size); font-weight: 600;">${title}</p>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: var(--space-md);">
+                <div class="field-group">
+                  <label class="field-label" for="audit-f-${ac.id}">${dLang.lblFalsifier}</label>
+                  <select class="styled-select" id="audit-f-${ac.id}">${fOpts}</select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="audit-t-${ac.id}">${dLang.lblTrap}</label>
+                  <select class="styled-select" id="audit-t-${ac.id}">${tOpts}</select>
+                </div>
+                <div class="field-group">
+                  <label class="field-label" for="audit-c-${ac.id}">${dLang.lblClass}</label>
+                  <select class="styled-select" id="audit-c-${ac.id}">${cOpts}</select>
+                </div>
+              </div>
+              ${fbHtml}
+            </div>
+          `;
+        }).join(``);
+
+        // Part B: Kuhn Circular SVG Diagram
+        const nodeCoords = [
+          { id: `k1`, x: 160, y: 42 },
+          { id: `k2`, x: 268, y: 120 },
+          { id: `k3`, x: 226, y: 244 },
+          { id: `k4`, x: 94, y: 244 },
+          { id: `k5`, x: 52, y: 120 }
+        ];
+
+        const activeStep = data.kuhnSteps.find(s => s.id === appState.selectedKuhnNode) || data.kuhnSteps[1];
+
+        const svgNodesHtml = nodeCoords.map((nc, idx) => {
+          const step = data.kuhnSteps[idx];
+          const isSel = step.id === activeStep.id;
+          const labelTxt = lang === `eu` ? step.short_eu : step.short_es;
+          return `
+            <g class="kuhn-node-group" tabindex="0" role="button" aria-label="${lang === `eu` ? step.label_eu : step.label_es}"
+               onclick="inspectKuhnNode('${step.id}')" onkeydown="handleKuhnNodeKey(event, '${step.id}')">
+              <circle cx="${nc.x}" cy="${nc.y}" r="28"
+                fill="${isSel ? `var(--primary)` : `var(--surface-container-low)`}"
+                stroke="${isSel ? `var(--outline)` : `var(--primary)`}"
+                stroke-width="${isSel ? `3` : `2`}"></circle>
+              <text x="${nc.x}" y="${nc.y - 3}" text-anchor="middle" font-family="var(--font-headline)" font-size="14" font-weight="700"
+                fill="${isSel ? `var(--on-primary)` : `var(--primary)`}">${step.num}</text>
+              <text x="${nc.x}" y="${nc.y + 12}" text-anchor="middle" font-family="var(--font-label)" font-size="7.5" font-weight="600"
+                fill="${isSel ? `var(--outline)` : `var(--tertiary)`}">${labelTxt.slice(0, 12)}</text>
+            </g>
+          `;
+        }).join(``);
+
+        const matchingHtml = data.astroMatchingCases.map(mc => {
+          const saved = appState.r2_3_cycle[mc.id] || {};
+          const stepOpts = [`<option value="">${t.selectPrompt}</option>`]
+            .concat(data.kuhnSteps.map(s => `<option value="${s.id}" ${saved.val === s.id ? `selected` : ``}>${lang === `eu` ? s.label_eu : s.label_es}</option>`)).join(``);
+
+          let fbHtml = ``;
+          if (saved.checked) {
+            fbHtml = `<div class="feedback-banner ${saved.ok ? `success` : `error`}">${
+              saved.ok
+                ? (lang === `eu` ? `Zuzen kokatua zikloan!` : `¡Ubicado correctamente en el ciclo!`)
+                : (lang === `eu` ? `Berrikusi Kuhnen 5 urratsen ordena (44. saioa).` : `Revisa la secuencia de 5 fases de Kuhn (Sesión 44).`)
+            }</div>`;
+          }
+
+          return `
+            <div class="case-row" style="margin-bottom: var(--space-sm);">
+              <p style="margin: 0 0 var(--space-sm) 0; font-size: 0.9375rem;">${lang === `eu` ? mc.text_eu : mc.text_es}</p>
+              <div class="field-group">
+                <label class="field-label" for="cycle-sel-${mc.id}">${lang === `eu` ? `Kuhnen zikloaren fasea` : `Fase del ciclo de Kuhn`}</label>
+                <select class="styled-select" id="cycle-sel-${mc.id}">${stepOpts}</select>
+              </div>
+              ${fbHtml}
+            </div>
+          `;
+        }).join(``);
+
+        container.innerHTML = `
+          <div class="section-head">
+            <h2>${dLang.title}</h2>
+            <span class="stamp-tag ${isDone ? `done` : ``}">${isDone ? t.completedLabel : dLang.tag}</span>
+          </div>
+
+          <!-- Part A: Popper Audit -->
+          <section class="challenge-box">
+            <h3 style="font-family: var(--font-headline); margin: 0 0 var(--space-xs) 0; color: var(--primary);">${dLang.part1Title}</h3>
+            <p style="margin: 0 0 var(--space-md) 0; color: var(--on-surface-variant);">${dLang.part1Instr}</p>
+            ${auditHtml}
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: center;">
+              <button type="button" class="btn btn-primary" onclick="checkAuditDossier()">${dLang.auditBtn}</button>
+              ${appState.r2_3_auditDone ? `<span class="stamp-tag done">${t.completedLabel}</span>` : ``}
+            </div>
+          </section>
+
+          <!-- Part B: Kuhn Circular Diagram -->
+          <section class="challenge-box">
+            <h3 style="font-family: var(--font-headline); margin: 0 0 var(--space-xs) 0; color: var(--primary);">${dLang.part2Title}</h3>
+            <p style="margin: 0 0 var(--space-md) 0; color: var(--on-surface-variant);">${dLang.part2Instr}</p>
+
+            <div class="kuhn-dossier-grid">
+              <div class="kuhn-svg-panel">
+                <svg width="320" height="290" viewBox="0 0 320 290" role="img" aria-label="Thomas Kuhn Ziklo Zientifikoa / Ciclo Científico">
+                  <defs>
+                    <marker id="kuhn-arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                      <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--outline)"></path>
+                    </marker>
+                  </defs>
+                  <!-- Circular connecting track -->
+                  <circle cx="160" cy="154" r="108" fill="none" stroke="var(--outline-variant)" stroke-width="2" stroke-dasharray="5 4"></circle>
+                  <!-- Directional arrows between nodes -->
+                  <line x1="190" y1="58" x2="238" y2="96" stroke="var(--outline)" stroke-width="2" marker-end="url(#kuhn-arrow)"></line>
+                  <line x1="258" y1="154" x2="238" y2="210" stroke="var(--outline)" stroke-width="2" marker-end="url(#kuhn-arrow)"></line>
+                  <line x1="192" y1="244" x2="128" y2="244" stroke="var(--outline)" stroke-width="2" marker-end="url(#kuhn-arrow)"></line>
+                  <line x1="82" y1="210" x2="62" y2="154" stroke="var(--outline)" stroke-width="2" marker-end="url(#kuhn-arrow)"></line>
+                  <line x1="82" y1="96" x2="130" y2="58" stroke="var(--outline)" stroke-width="2" marker-end="url(#kuhn-arrow)"></line>
+                  <text x="160" y="150" text-anchor="middle" font-family="var(--font-headline)" font-size="13" fill="var(--primary)">KUHN</text>
+                  <text x="160" y="168" text-anchor="middle" font-family="var(--font-label)" font-size="9" fill="var(--tertiary)">1 → 2 → 3 → 4 → 5 → 2</text>
+                  ${svgNodesHtml}
+                </svg>
+
+                <div class="kuhn-inspector">
+                  <div class="kicker-label" style="margin-bottom: var(--space-xs);">${lang === `eu` ? activeStep.label_eu : activeStep.label_es}</div>
+                  <p style="margin: 0 0 var(--space-xs) 0;">${lang === `eu` ? activeStep.desc_eu : activeStep.desc_es}</p>
+                  <p style="margin: 0; color: var(--on-surface-variant);"><strong>${lang === `eu` ? `Adibide astronomikoa:` : `Caso astronómico:`}</strong> ${lang === `eu` ? activeStep.astro_eu : activeStep.astro_es}</p>
+                </div>
+                <p style="margin: 0; font-size: var(--label-size); color: var(--on-surface-variant);">${dLang.cycleInspectorHint}</p>
+              </div>
+
+              <div>
+                ${matchingHtml}
+                <div style="margin-top: var(--space-md); display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: center;">
+                  <button type="button" class="btn btn-primary" onclick="checkKuhnCycle()">${dLang.cycleVerifyBtn}</button>
+                  ${appState.r2_3_cycleDone ? `<span class="stamp-tag done">${t.completedLabel}</span>` : ``}
+                </div>
+              </div>
+            </div>
+
+            <div class="phase-footer-nav">
+              <button type="button" class="btn btn-secondary" onclick="selectPhase('route2', 2)">&larr; ${t.prevPhaseBtn}</button>
+              <button type="button" class="btn btn-primary" onclick="switchRoute('report')">${t.goReportBtn} &rarr;</button>
+            </div>
+          </section>
+        `;
+      }
+    }
+
+    /* =========================================================================
+       RENDER FINAL DIAGNOSTIC REPORT
+       ========================================================================= */
+    function renderReport() {
+      const container = document.getElementById(`report-content`);
+      if (!container) return;
+      const lang = appState.lang;
+      const t = I18N[lang];
+
+      const completedCount = Object.values(appState.completedPhases).filter(Boolean).length;
+      const totalErrors = Object.values(appState.errors).reduce((a, b) => a + b, 0);
+      let rankLabel = t.ranks[0].label;
+      t.ranks.forEach(r => { if (appState.points >= r.min) rankLabel = r.label; });
+
+      const pillarRows = Object.keys(DIAGNOSTIC_PILLARS).map(pk => {
+        const err = appState.errors[pk] || 0;
+        const pInfo = DIAGNOSTIC_PILLARS[pk];
+        // Compute rough completion per pillar
+        let doneRatio = 0;
+        if (pk === `corr_coh`) {
+          doneRatio = (appState.completedPhases.r1_1 ? 50 : 0) + (appState.completedPhases.r1_3 ? 50 : 0);
+        } else if (pk === `prag_cons`) {
+          doneRatio = (appState.completedPhases.r1_2 ? 50 : 0) + (appState.completedPhases.r1_3 ? 50 : 0);
+        } else if (pk === `popper`) {
+          doneRatio = (appState.completedPhases.r2_1 ? 50 : 0) + (appState.r2_3_auditDone ? 50 : 0);
+        } else if (pk === `kuhn`) {
+          doneRatio = (appState.completedPhases.r2_2 ? 50 : 0) + (appState.r2_3_cycleDone ? 50 : 0);
+        }
+
+        const statusTxt = err === 0 && doneRatio === 100
+          ? (lang === `eu` ? `Menperatua` : `Dominado`)
+          : `${doneRatio}% · ${err} ${lang === `eu` ? `akats` : `errores`}`;
+
+        return `
+          <div class="pillar-bar-row">
+            <strong>${pInfo[lang]}</strong>
+            <div class="pillar-track"><div class="pillar-fill ${doneRatio === 100 && err === 0 ? `mastered` : ``}" style="width: ${doneRatio}%"></div></div>
+            <span style="font-variant-numeric: tabular-nums; font-size: 0.875rem; color: var(--on-surface-variant);">${statusTxt}</span>
+          </div>
+        `;
+      }).join(``);
+
+      const errorPillars = Object.keys(DIAGNOSTIC_PILLARS).filter(pk => (appState.errors[pk] || 0) > 0);
+      let diagItemsHtml = ``;
+      if (completedCount === 0 && totalErrors === 0) {
+        diagItemsHtml = `
+          <li class="diag-item">
+            <strong>${lang === `eu` ? `Oraindik ez duzu erronkarik osatu.` : `Aún no has completado ningún reto.`}</strong>
+            <p style="margin: var(--space-xs) 0 0 0;">${lang === `eu` ? `Hasi 1. edo 2. Ibilbidean, eta hemen agertuko da zure akatsen diagnostiko pertsonalizatua.` : `Comienza en la Ruta 1 o en la Ruta 2 para generar aquí tu diagnóstico personalizado.`}</p>
+          </li>
+        `;
+      } else if (errorPillars.length === 0) {
+        diagItemsHtml = `
+          <li class="diag-item clean">
+            <strong>${lang === `eu` ? `Akatsik gabeko ibilbidea!` : `¡Recorrido sin errores!`}</strong>
+            <p style="margin: var(--space-xs) 0 0 0;">${lang === `eu` ? `Zorionak! Orain arte egindako jardueretan ez duzu akatsik egin. Jarraitu falta diren faseak osatzen 300 puntuetara iristeko.` : `¡Enhorabuena! No has cometido errores en las actividades completadas hasta ahora. Completa todas las fases para alcanzar los 300 puntos.`}</p>
+          </li>
+        `;
+      } else {
+        diagItemsHtml = errorPillars.map(pk => {
+          const pInfo = DIAGNOSTIC_PILLARS[pk];
+          const count = appState.errors[pk];
+          return `
+            <li class="diag-item">
+              <strong>${pInfo[lang]} (${count} ${lang === `eu` ? `akats` : `errores`})</strong>
+              <p style="margin: var(--space-xs) 0 0 0;">${lang === `eu` ? pInfo.tip_eu : pInfo.tip_es}</p>
+            </li>
+          `;
+        }).join(``);
+      }
+
+      container.innerHTML = `
+        <div class="section-head">
+          <h2>${t.tab3Title}</h2>
+          <button type="button" class="btn btn-primary" onclick="exportDiagnosticReport()">
+            ${lang === `eu` ? `Deskargatu Txostena (.txt)` : `Descargar Informe (.txt)`}
+          </button>
+        </div>
+
+        <div class="report-kpi-grid">
+          <div class="figure-card">
+            <div class="figure-label">${t.pointsLabel}</div>
+            <div class="figure-value">${appState.points} / 300</div>
+            <div class="figure-delta">${rankLabel}</div>
+          </div>
+          <div class="figure-card">
+            <div class="figure-label">${t.progressLabel}</div>
+            <div class="figure-value">${completedCount} / 6</div>
+            <div class="figure-delta">${Math.round((completedCount / 6) * 100)}%</div>
+          </div>
+          <div class="figure-card">
+            <div class="figure-label">${lang === `eu` ? `Erregistratutako akatsak` : `Errores registrados`}</div>
+            <div class="figure-value">${totalErrors}</div>
+            <div class="figure-delta">${errorPillars.length} ${lang === `eu` ? `bloke berrikusteko` : `bloques a reforzar`}</div>
+          </div>
+        </div>
+
+        <section class="challenge-box">
+          <h3 style="font-family: var(--font-headline); margin: 0 0 var(--space-md) 0; color: var(--primary);">
+            ${lang === `eu` ? `Blokeen araberako menperatzea` : `Dominio por bloque filosófico`}
+          </h3>
+          ${pillarRows}
+        </section>
+
+        <section class="challenge-box">
+          <h3 style="font-family: var(--font-headline); margin: 0 0 var(--space-md) 0; color: var(--primary);">
+            ${lang === `eu` ? `Berrikusteko Gomendio Pertsonalizatuak` : `Recomendaciones Personalizadas de Repaso`}
+          </h3>
+          <ul class="diag-list">${diagItemsHtml}</ul>
+        </section>
+      `;
+    }
+
+    function renderAll() {
+      renderHeaderAndChrome();
+      renderRoute1();
+      renderRoute2();
+      renderReport();
+    }
+
+    /* =========================================================================
+       INIT & NOTEBOOK APP API LIFECYCLE
+       ========================================================================= */
+    async function initApp() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            const def = getDefaultState();
+            appState = Object.assign({}, def, saved);
+            appState.completedPhases = Object.assign({}, def.completedPhases, saved.completedPhases || {});
+            appState.errors = Object.assign({}, def.errors, saved.errors || {});
+            appState.swans = Object.assign({}, def.swans, saved.swans || {});
+          }
+        }
+      } catch (err) {
+        // Proceed with default state if no saved state
+      }
+
+      document.documentElement.lang = appState.lang || `eu`;
+      renderAll();
+
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+          window.notebookAppApi.notifyAppReady();
+        }
+      } catch (err) {
+        // Safe standalone fallback
+      }
+    }
+
+    initApp();
+  </script>
+</body>
+</html>
